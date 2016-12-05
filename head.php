@@ -1,5 +1,14 @@
 <?php
 include('app/config.php');
+include('app/auth.php');
+
+//авторизация временная
+$auth = new Auth();
+$user = json_encode($auth->user);
+//авторизация временная
+
+
+//хеш файлов, меняется при внесении изменений
 $dir1 = "js/";
 //
 $files_array = dirlist($dir1);
@@ -75,14 +84,16 @@ function filelist($dir){
 <script src="js/lib/bootstrap.min.js"></script>
 
 <script src="dhtmlxSuite_v50_std/codebase/dhtmlx.js"></script>
+<script src="js/lib/dhtmlxPartsPro/dhtmlxInsertDeleteColumn.js"></script>
 
 
 <script src="js/include.js?<?php echo $hash;?>"></script>
 <script src="js/edocs.js?<?php echo $hash;?>"></script>
 <script src="js/init.js?<?php echo $hash;?>"></script>
-<script> var hash = "<?php echo $hash;?>"; var env = "<?php echo ENV;?>";</script>
-
-
-
+<script> 
+  var HASH = "<?php echo $hash;?>";
+  var ENV = "<?php echo ENV;?>";
+  var USER = <?php print_r($user);?>;
+</script>
 
 

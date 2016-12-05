@@ -11,7 +11,7 @@ var layout,
 var active_filter = 'type_id';
 
 $(document).ready(function() {
-  if(env == 'dev'){
+  if(ENV == 'dev'){
     docsPath = "http://expert/docs/";
     docsUploaded = "http://expert/uploaded/";    
   } else {
@@ -19,10 +19,10 @@ $(document).ready(function() {
     docsUploaded = "http://innakhx4.beget.tech/uploaded/"; 
   } 
   
-  include("/js/utils.js?"+hash); //форма загрузки файлоф
-  include("/js/upoadForm.js?"+hash); //форма загрузки файлоф
-  include("/js/keyEvent.js?"+hash); // события нажатия клавиатуры
-  include("/js/script.js?"+hash); //форма загрузки файлоф
-  include("/js/events.js?"+hash); //форма загрузки файлоф
+  include("/js/utils.js?"+HASH); //форма загрузки файлоф
+  include("/js/upoadForm.js?"+HASH); //форма загрузки файлоф
+  include("/js/keyEvent.js?"+HASH); // события нажатия клавиатуры
+  include("/js/script.js?"+HASH); //форма загрузки файлоф
+  include("/js/events.js?"+HASH); //форма загрузки файлоф
 
 })
