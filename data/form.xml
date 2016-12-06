@@ -2,10 +2,12 @@
 <items>
     <item type="settings"  inputWidth="220"  position="label-left"  labelWidth="70"/>
 	<item type="label" 	label="Группа1"/>
-	<item type="input"	label="Назва документу" 	name="name" 	offsetLeft="15"/>
-	<item type="input"	label="Файл" 	name="file" 	offsetLeft="15"/>
-	<item type="label" 	label="Группа2"/>
-    <item type="input" 	label="Тип"		name="type" 	offsetLeft="15"/>
+  <item type="input"	label="Статус" 	name="status_name" 	offsetLeft="15"/>
+	<item type="input"	label="Видавник" 	name="author_name" 	offsetLeft="15"/>
+  <item type="input"	label="Вид" 	name="type_name" 	offsetLeft="15"/>
+  <item type="input"	label="Назва" 	name="name" 	offsetLeft="15"/>
+	<item type="input"	label="Дата" 	name="date" 	offsetLeft="15"/>
+	<item type="input"	label="Номер" 	name="num" 	offsetLeft="15"/>
 	<item type="button" 	value="Сохранить" name="submit"		offsetTop="15" 	offsetLeft="100"/>
   <item type="button" 	value="Закрыть" 	name="close"	offsetTop="-45" 	offsetLeft="230"/>
 </items>
