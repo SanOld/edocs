@@ -73,12 +73,10 @@ documentTree.attachEvent("onSelect", function(id, mode){
 
 
 function doAfterGridUpdate(){
-  
     if(USER['type'] == 'admin' && !admin_columns_show){
       gridAttachAdminColumns();
       admin_columns_show = !admin_columns_show;
     }
-    
     return true;
 }
 
@@ -87,7 +85,7 @@ function gridAttachAdminColumns(){
   var columnsNumber = documentsGrid.getColumnsNum();
   documentsGrid.insertColumn(0,'Вибір,','ch',50,'na','center','top',null);
   var columnsNumber = documentsGrid.getColumnsNum();
-  documentsGrid.insertColumn(columnsNumber,'Видалити','ch',50,'na','center','top',null);
+  documentsGrid.insertColumn(columnsNumber,'Видалити','myDelete',50,'na','center','top',null);
 }
 
 function gridDetachAdminColumns(){

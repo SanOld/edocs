@@ -125,5 +125,16 @@ div.dhtmlxMenu_dhx_web_TopLevel_Item_Normal i,div.dhtmlxMenu_dhx_web_TopLevel_It
 
 
 td {
-    vertical-align: middle;
+    vertical-align: middle !important;
+}
+
+td .btn{
+    background-color: #3da0e3;
+    position: relative;
+    line-height: normal;
+    cursor: default;
+    overflow: hidden;
+    font-family: Tahoma,Helvetica;
+    font-size: 12px;
+    color: #fff;
 }

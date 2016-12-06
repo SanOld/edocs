@@ -16,7 +16,21 @@
 }
 eXcell_myDate.prototype = new eXcell;// nests all other methods from the base class
 
-
+ function eXcell_myDelete(cell){ // the eXcell name is defined here
+    if (cell){                // the default pattern, just copy it
+        this.cell = cell;
+        this.grid = this.cell.parentNode.grid;
+    }
+    this.edit = function(){}  //read-only cell doesn't have edit method
+    // the cell is read-only, so it's always in the disabled state
+    this.isDisabled = function(){ return true; }
+    this.setValue=function(val){
+//        this.setCValue("<input type='button' value='"+val+"'>",val); 
+        this.setCValue('<button type="button" class="btn btn-default btn-sm"><span class="fa fa-close"></span></button>',val); 
+       
+    }
+}
+eXcell_myDelete.prototype = new eXcell;// nests all other methods from the base class
 
   layout = new dhtmlXLayoutObject(document.body,"4C");                       //initializes dhtmlxLayout
   layout.setSkin("dhx_web");
