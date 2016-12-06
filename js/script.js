@@ -87,7 +87,7 @@ eXcell_myDate.prototype = new eXcell;// nests all other methods from the base cl
   documentsGrid.setColAlign("left,left,left,left,left,left,center,left");                                //sets the horizontal alignment
    
   documentsGrid.setColTypes("ro,ro,ro,ro,ro,ro,myDate,ro");                                      //sets the types of columns
-//  documentsGrid.setColSorting("str,str,str,str,str,str,str");                                 //sets the sorting types of columns
+  documentsGrid.setColSorting("str,str,str,str,str,str,str");                                 //sets the sorting types of columns
 //  documentsGrid.attachHeader(",,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");       //sets the filters for columns
   documentsGrid.setColumnHidden(0,1); //hides the 1st column
   documentsGrid.setColumnHidden(1,1); //hides the 1st column

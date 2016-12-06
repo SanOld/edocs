@@ -61,12 +61,11 @@ documentTree.attachEvent("onSelect", function(id, mode){
     documentsGrid.clearAll();
     if(USER['type'] == 'admin' && admin_columns_show){
       gridDetachAdminColumns();
-      window.console.log(documentsGrid.getColumnsNum());
-      documentsGrid.init();
       admin_columns_show = !admin_columns_show;
     }
-    documentsGrid.refresh();
-    documentsGrid.updateFromXML("app_server/dataGrid.php?connector=true&dhx_filter[" + active_filter + "]=" + id, true,true,doAfterGridUpdate);
+    
+//    documentsGrid.updateFromXML("app_server/dataGrid.php?connector=true&dhx_filter[" + active_filter + "]=" + id, true,true,doAfterGridUpdate);
+    documentsGrid.load("app_server/dataGrid.php?connector=true&dhx_filter[" + active_filter + "]=" + id, doAfterGridUpdate);
 //    documentsGrid.refresh();
 
   }
@@ -84,40 +83,20 @@ function doAfterGridUpdate(){
 }
 
 
-  function gridAttachAdminColumns(){
-        var columnsNumber = documentsGrid.getColumnsNum();
-    
-    for(var i=0 ; i<=columnsNumber-1; i++){
-      window.console.log(documentsGrid.getColumnId(i)+ " " + i);
-    }
-    
-    
-    documentsGrid.insertColumn(0,'Вибір,','ch',50,'na','center','top',null);
-    var columnsNumber = documentsGrid.getColumnsNum();
-    documentsGrid.insertColumn(columnsNumber,'Видалити','ch',50,'na','center','top',null);
-    
-    
-    var columnsNumber = documentsGrid.getColumnsNum();
-    
-    for(var i=0 ; i<=columnsNumber-1; i++){
-      window.console.log(documentsGrid.getColumnId(i)+ " " + i);
-    }
-  }
-  
-    function gridDetachAdminColumns(){
-    
-var columnsNumber = documentsGrid.getColumnsNum();
-   window.console.log('=============' + columnsNumber);
-    documentsGrid.deleteColumn(columnsNumber-1);
-    documentsGrid.deleteColumn(0);
-    
-        var columnsNumber = documentsGrid.getColumnsNum();
-    window.console.log('=============' + columnsNumber);
-    
-    for(var i=0 ; i<=columnsNumber-1; i++){
-      window.console.log(documentsGrid.getColumnId(i)+ " " + i);
-    }
-  }
+function gridAttachAdminColumns(){
+  var columnsNumber = documentsGrid.getColumnsNum();
+  documentsGrid.insertColumn(0,'Вибір,','ch',50,'na','center','top',null);
+  var columnsNumber = documentsGrid.getColumnsNum();
+  documentsGrid.insertColumn(columnsNumber,'Видалити','ch',50,'na','center','top',null);
+}
+
+function gridDetachAdminColumns(){
+  var columnsNumber = documentsGrid.getColumnsNum();
+  documentsGrid.deleteColumn(columnsNumber-1);
+  documentsGrid.deleteColumn(0);
+}
+
+
 //toolbarMain.attachEvent("onclick",function(id){                                //attaches a handler function to the "onclick" event
 //    if(id=="newContact"){                                                  //'newContact' is the id of the button in the toolbar
 //        var rowId=documentsGrid.uid();                                      //generates an unique id

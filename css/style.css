@@ -121,3 +121,9 @@ div.dhtmlxMenu_dhx_web_TopLevel_Item_Normal i,div.dhtmlxMenu_dhx_web_TopLevel_It
 .dhx_toolbar_dhx_web {
     background-color: #015C99;
 }
+
+
+
+td {
+    vertical-align: middle;
+}
