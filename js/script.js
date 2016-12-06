@@ -72,19 +72,21 @@ eXcell_myDate.prototype = new eXcell;// nests all other methods from the base cl
 
   documentsGrid = layout.cells("c").attachGrid();                             //initializes dhtmlxGrid
   documentsGrid.setImagePath("../imgs/dhxgrid_material/");
-  documentsGrid.setHeader("file,type_id,Наименование,Дата, Num, Active",null,
+  documentsGrid.setHeader("file,type_id,Статус,Видавник, Вид, Назва документу,Дата,N",null,
                           [  "text-align:center;"
                             ,"text-align:center;"
                             ,"text-align:center;"
                             ,"text-align:center;"
                             ,"text-align:center;"
                             ,"text-align:center;"
+                            ,"text-align:center;"
+                            ,"text-align:center;"
                           ]);                            //sets the header labels
-  documentsGrid.setColumnIds("file,type_id,name,date,num,active");                            //sets the column ids
-  documentsGrid.setInitWidths("0,0,*,200,100,100");                                 //sets the initial widths of columns
-  documentsGrid.setColAlign("left,left,left,left,center,center,center");                                //sets the horizontal alignment
+  documentsGrid.setColumnIds("file,type_id,status_name,author_name,type_name,name,date,num");                            //sets the column ids
+  documentsGrid.setInitWidths("0,0,100,200,100,*,100,100");                                 //sets the initial widths of columns
+  documentsGrid.setColAlign("left,left,left,left,left,left,center,left");                                //sets the horizontal alignment
    
-  documentsGrid.setColTypes("ro,ro,ro,myDate,ro,ro");                                      //sets the types of columns
+  documentsGrid.setColTypes("ro,ro,ro,ro,ro,ro,myDate,ro");                                      //sets the types of columns
 //  documentsGrid.setColSorting("str,str,str,str,str,str,str");                                 //sets the sorting types of columns
 //  documentsGrid.attachHeader(",,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");       //sets the filters for columns
   documentsGrid.setColumnHidden(0,1); //hides the 1st column
@@ -122,8 +124,6 @@ eXcell_myDate.prototype = new eXcell;// nests all other methods from the base cl
     toolbarMain.addButton     ('button_upload_folder', 5, 'Загрузить из папки...',"fa fa-cloud-upload",false);   
     toolbarMain.setItemToolTip('button_upload_folder',"Загрузка файлов массово из папки");
     
-    documentsGrid.insertColumn(0,'Some text','ch',50,'na','center','top',null);
-    
     toolbarC = layout.cells("c").attachToolbar()
     toolbarC.setIconset("awesome");
     toolbarC.addButton('button_editor', 5, 'Редактор',"fa fa-pencil",false); 
@@ -131,4 +131,4 @@ eXcell_myDate.prototype = new eXcell;// nests all other methods from the base cl
   }
 
 
-  
+

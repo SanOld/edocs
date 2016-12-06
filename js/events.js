@@ -38,8 +38,9 @@ toolbarMain.attachEvent("onStateChange", function(id, state){
   }
 });
 documentsGrid.attachEvent("onRowSelect", function(id,ind){
-  var docName = documentsGrid.cells(documentsGrid.getSelectedId(),0).getValue();
-  var docType = documentsGrid.cells(documentsGrid.getSelectedId(),5).getValue();
+
+  var docName = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('file')).getValue();
+  var docType = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('type_id')).getValue();
   var oIframe = document.getElementsByTagName('iframe')[0];
   var path;
 
@@ -53,30 +54,87 @@ documentsGrid.attachEvent("onRowSelect", function(id,ind){
 //    oIframe.src = "https://docs.google.com/viewerng/viewer?url=http://innakhx4.bget.ru/" + docName + "&embedded=true";  
   }
 }); 
+
+var admin_columns_show = false;
 documentTree.attachEvent("onSelect", function(id, mode){
   if(mode){
     documentsGrid.clearAll();
-    documentsGrid.updateFromXML("app_server/dataGrid.php?connector=true&dhx_filter[" + active_filter + "]=" + id);
+    if(USER['type'] == 'admin' && admin_columns_show){
+      gridDetachAdminColumns();
+      window.console.log(documentsGrid.getColumnsNum());
+      documentsGrid.init();
+      admin_columns_show = !admin_columns_show;
+    }
     documentsGrid.refresh();
+    documentsGrid.updateFromXML("app_server/dataGrid.php?connector=true&dhx_filter[" + active_filter + "]=" + id, true,true,doAfterGridUpdate);
+//    documentsGrid.refresh();
+
   }
 });  
-toolbarMain.attachEvent("onclick",function(id){                                //attaches a handler function to the "onclick" event
-    if(id=="newContact"){                                                  //'newContact' is the id of the button in the toolbar
-        var rowId=documentsGrid.uid();                                      //generates an unique id
-        var pos = documentsGrid.getRowsNum();                               //gets the number of rows in the grid
-        documentsGrid.addRow(rowId,["New contact","",""],pos);              //adds a new row to the grid. The 'addRow()' method takes 3 parameters: the row id (must be unique), the initial values of the row, the  position where the new must be inserted
-    };
-    if(id=="delContact"){                                                  //'delContact' is the id of the button in the toolbar
-        var rowId = documentsGrid.getSelectedRowId();                       //gets the id of the currently selected row
-        var rowIndex = documentsGrid.getRowIndex(rowId);                    //gets the index of the row with the specified id
 
-        if(rowId!=null){
-            documentsGrid.deleteRow(rowId);                                 //deletes the currently selected row
-            if(rowIndex!=(documentsGrid.getRowsNum()-1)){                   //checks whether  the currently selected row is NOT last in the grid
-                documentsGrid.selectRow(rowIndex+1,true);                   //if the currently selected row isn't last - moves selection to the next row
-            } else{                                                        //otherwise, moves selection to the previous row
-                documentsGrid.selectRow(rowIndex-1,true)
-            }
-        }
+
+function doAfterGridUpdate(){
+  
+    if(USER['type'] == 'admin' && !admin_columns_show){
+      gridAttachAdminColumns();
+      admin_columns_show = !admin_columns_show;
     }
-});
+    
+    return true;
+}
+
+
+  function gridAttachAdminColumns(){
+        var columnsNumber = documentsGrid.getColumnsNum();
+    
+    for(var i=0 ; i<=columnsNumber-1; i++){
+      window.console.log(documentsGrid.getColumnId(i)+ " " + i);
+    }
+    
+    
+    documentsGrid.insertColumn(0,'Вибір,','ch',50,'na','center','top',null);
+    var columnsNumber = documentsGrid.getColumnsNum();
+    documentsGrid.insertColumn(columnsNumber,'Видалити','ch',50,'na','center','top',null);
+    
+    
+    var columnsNumber = documentsGrid.getColumnsNum();
+    
+    for(var i=0 ; i<=columnsNumber-1; i++){
+      window.console.log(documentsGrid.getColumnId(i)+ " " + i);
+    }
+  }
+  
+    function gridDetachAdminColumns(){
+    
+var columnsNumber = documentsGrid.getColumnsNum();
+   window.console.log('=============' + columnsNumber);
+    documentsGrid.deleteColumn(columnsNumber-1);
+    documentsGrid.deleteColumn(0);
+    
+        var columnsNumber = documentsGrid.getColumnsNum();
+    window.console.log('=============' + columnsNumber);
+    
+    for(var i=0 ; i<=columnsNumber-1; i++){
+      window.console.log(documentsGrid.getColumnId(i)+ " " + i);
+    }
+  }
+//toolbarMain.attachEvent("onclick",function(id){                                //attaches a handler function to the "onclick" event
+//    if(id=="newContact"){                                                  //'newContact' is the id of the button in the toolbar
+//        var rowId=documentsGrid.uid();                                      //generates an unique id
+//        var pos = documentsGrid.getRowsNum();                               //gets the number of rows in the grid
+//        documentsGrid.addRow(rowId,["New contact","",""],pos);              //adds a new row to the grid. The 'addRow()' method takes 3 parameters: the row id (must be unique), the initial values of the row, the  position where the new must be inserted
+//    };
+//    if(id=="delContact"){                                                  //'delContact' is the id of the button in the toolbar
+//        var rowId = documentsGrid.getSelectedRowId();                       //gets the id of the currently selected row
+//        var rowIndex = documentsGrid.getRowIndex(rowId);                    //gets the index of the row with the specified id
+//
+//        if(rowId!=null){
+//            documentsGrid.deleteRow(rowId);                                 //deletes the currently selected row
+//            if(rowIndex!=(documentsGrid.getRowsNum()-1)){                   //checks whether  the currently selected row is NOT last in the grid
+//                documentsGrid.selectRow(rowIndex+1,true);                   //if the currently selected row isn't last - moves selection to the next row
+//            } else{                                                        //otherwise, moves selection to the previous row
+//                documentsGrid.selectRow(rowIndex-1,true)
+//            }
+//        }
+//    }
+//});
