@@ -37,52 +37,51 @@ toolbarMain.attachEvent("onStateChange", function(id, state){
       break;
   }
 });
+documentsGrid.attachEvent("onBeforeSelect", function(new_row,old_row,new_col_index){
+//  switch (true) {
+//    case gridEditMode:
+//      editFormShow(layout);
+//      gridEditMode = false;
+//      return true;
+//      break; 
+//  }
+  return true;
+});
 documentsGrid.attachEvent("onRowSelect", function(id,ind){
   var id = documentsGrid.getSelectedId();
   var docName = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('file')).getValue();
   var docType = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('type_id')).getValue();
+  
+  switch (true) {
+    case gridDeleteMode:
+      documentsGrid.deleteRow(documentsGrid.getSelectedId());
+      gridDeleteMode = !gridDeleteMode;    
+      break; 
+    default:
+      var oIframe = document.getElementsByTagName('iframe')[0];
+      var path;
+
+      path = (docType == 8) ? docsUploaded : docsPath
+      edocs.message(docName);
+      edocs.message(path);
+      if (docName.search(/\.html/i) != -1){  
+        oIframe.src = path + docName;
+      } else {
+        oIframe.src = "http://docs.google.com/viewer?url=" + path + docName + "&embedded=true";
+    //    oIframe.src = "https://docs.google.com/viewerng/viewer?url=http://innakhx4.bget.ru/" + docName + "&embedded=true";  
+      }       
+      break;
+  }
 
   if(gridDeleteMode){
-    
-    documentsGrid.deleteRow(documentsGrid.getSelectedId());
 
-    
-//    window.dhx.ajax.del("../app_server/dataGrid.php?id="+id, function(r){
-//        var t = window.dhx.s2j(r.xmlDoc.responseText); // convert response to json object
-//        if (t != null && t.status == "ok") {
-//            
-//            edocs.message("Строка удалена!");
-//        } else {
-//          edocs.message("Неудачная попытка удаления!");
-//        }
-//    });
-
-    gridDeleteMode = !gridDeleteMode;
   } else {
 
-//    var oIframe = document.getElementsByTagName('iframe')[0];
-//    var path;
-//
-//    path = (docType == 8) ? docsUploaded : docsPath
-//    edocs.message(docName);
-//    edocs.message(path);
-//    if (docName.search(/\.html/i) != -1){  
-//      oIframe.src = path + docName;
-//    } else {
-//      oIframe.src = "http://docs.google.com/viewer?url=" + path + docName + "&embedded=true";
-//  //    oIframe.src = "https://docs.google.com/viewerng/viewer?url=http://innakhx4.bget.ru/" + docName + "&embedded=true";  
-//    }  
+ 
   }
 
  
 }); 
-
-
-
-
-
-
-var admin_columns_show = false;
 documentTree.attachEvent("onSelect", function(id, mode){
   if(mode){
     documentsGrid.clearAll();
@@ -98,7 +97,6 @@ documentTree.attachEvent("onSelect", function(id, mode){
   }
 });  
 
-
 function doAfterGridUpdate(){
     if(USER['type'] == 'admin' && !admin_columns_show){
       gridAttachAdminColumns();
@@ -106,21 +104,80 @@ function doAfterGridUpdate(){
     }
     return true;
 }
-
-
 function gridAttachAdminColumns(){
   var columnsNumber = documentsGrid.getColumnsNum();
   documentsGrid.insertColumn(0,'Вибір,','ch',50,'na','center','top',null);
   var columnsNumber = documentsGrid.getColumnsNum();
-  documentsGrid.insertColumn(columnsNumber,'Видалити','myDelete',50,'na','center','top',null);
+  documentsGrid.insertColumn(columnsNumber,'','myEdit',50,'na','center','top',null);
+  var columnsNumber = documentsGrid.getColumnsNum();
+  documentsGrid.insertColumn(columnsNumber,'','myDelete',50,'na','center','top',null);
 }
-
 function gridDetachAdminColumns(){
   var columnsNumber = documentsGrid.getColumnsNum();
   documentsGrid.deleteColumn(columnsNumber-1);
+  documentsGrid.deleteColumn(columnsNumber-2);
   documentsGrid.deleteColumn(0);
 }
 
+
+dataProc.attachEvent("onBeforeUpdate", function (id, status, data) {
+//     delete data['c9'];
+//     delete data['c10'];
+   return true;
+});
+dataProc.attachEvent("onAfterUpdate", function(id, action, tid, response){
+
+  switch (action) {
+    case 'updated':
+      window.console.log('updated');
+      window.console.log(response);
+      break;
+    case 'inserted':
+      window.console.log('inserted');
+      window.console.log(response);
+      break;  
+    case 'deleted':
+      window.console.log('deleted');
+      window.console.log(response);
+      break;
+    case 'invalid':
+      window.console.log('invalid');
+      window.console.log(response);
+      break;
+    case 'error':
+      window.console.log('error');
+      window.console.log(response);
+      break;  
+  return true;
+  }
+});
+dataProc.attachEvent("onRowMark", function (id, state, mode) {
+//       window.console.log(id);
+//       window.console.log(state);
+//       window.console.log(mode);
+     return true;
+
+//          if (state && mode == "updated") {
+//            grid.forEachCell(id, function (obj) {
+//                if (obj.wasChanged()) 
+//                    obj.cell.style.fontWeight = "bold";
+//            });
+//            return 0;
+//        }
+});
+
+  
+editForm.attachEvent("onButtonClick", function(id){ 
+  switch (id) {
+    case 'submit':
+      editForm.save();  
+      break;
+    case 'close':
+      editWindow.window('editWindow').hide();  
+      break;
+  }//attaches a handler function to the "onButtonClick" event
+                                                    //sends the values of the updated row to the server
+});
 
 //toolbarMain.attachEvent("onclick",function(id){                                //attaches a handler function to the "onclick" event
 //    if(id=="newContact"){                                                  //'newContact' is the id of the button in the toolbar

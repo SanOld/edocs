@@ -10,6 +10,11 @@ var layout,
     toolbarD;
 var active_filter = 'type_id';
 var gridDeleteMode = false;
+var admin_columns_show = false;
+
+var editWindow //объявлена глобально для keyEvents
+var editWindowElement;
+var editForm
 
 $(document).ready(function() {
   if(ENV == 'dev'){
@@ -22,6 +27,7 @@ $(document).ready(function() {
   
   include("/js/utils.js?"+HASH); //форма загрузки файлоф
   include("/js/upoadForm.js?"+HASH); //форма загрузки файлоф
+  include("/js/editForm.js?"+HASH); //форма загрузки файлоф
   include("/js/keyEvent.js?"+HASH); // события нажатия клавиатуры
   include("/js/script.js?"+HASH); //форма загрузки файлоф
   include("/js/events.js?"+HASH); //форма загрузки файлоф

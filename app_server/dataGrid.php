@@ -63,7 +63,7 @@ $grid_connector->set_options("topic_id",$filter4);
 
 $sql = "
   SELECT 
-  docs.id
+   docs.id
   ,file
   ,type_id
   ,sts.name as status_name 
@@ -79,17 +79,19 @@ $sql = "
   ";
 
 
- if(!$_REQUEST['connector']){
-  $grid_connector->render_table('docs', 'id', getTaskColumns());
-//   print_r($_REQUEST);
-//   print_r(1111111111);
-//   print_r($_REQUEST['!nativeeditor_status']);
-//   die();
-//  $grid_connector->render_sql($sql, 'id', getTaskColumns());
-}  else {
-  $grid_connector->render_sql($sql, 'id', getTaskColumns());
+$action = $_REQUEST['ids']."_!nativeeditor_status";
+
+switch ( $_REQUEST[$action] ) {
+  case 'updated':
+    $grid_connector->render_sql($sql, 'id', getTaskColumns());
+    break;
+  case 'deleted':
+    $grid_connector->render_table('docs', 'id', getTaskColumns());
+    break;
+
+  default:
+    $grid_connector->render_sql($sql, 'id', getTaskColumns());
+    break;
 }
-
-
 
 ?>

@@ -42,6 +42,27 @@ function removeRow(){
 eXcell_myDelete.prototype = new eXcell;// nests all other methods from the base class
 
 
+ function eXcell_myEdit(cell){ // the eXcell name is defined here
+    if (cell){                // the default pattern, just copy it
+        this.cell = cell;
+        this.grid = this.cell.parentNode.grid;
+        this.cell.onclick = function(e){ 
+//          (e||event).cancelBubble=true;
+            gridEditMode = true;
+            editFormShow(layout);
+        }
+    }    
+    this.edit = function(){}  //read-only cell doesn't have edit method
+    // the cell is read-only, so it's always in the disabled state
+    this.isDisabled = function(){ return true; }
+    this.setValue=function(val){
+//        this.setCValue("<input type='button' value='"+val+"'>",val); 
+        this.setCValue('<button type="button" class="btn btn-default btn-sm"  ><span class="fa fa-pencil"></span></button>',val); 
+    }
+}
+eXcell_myEdit.prototype = new eXcell;// nests all other methods from the base class
+
+
 
 
 
@@ -99,7 +120,7 @@ eXcell_myDelete.prototype = new eXcell;// nests all other methods from the base 
 
   documentsGrid = layout.cells("c").attachGrid();                             //initializes dhtmlxGrid
   documentsGrid.setImagePath("../imgs/dhxgrid_material/");
-  documentsGrid.setHeader("id,file,type_id,Статус,Видавник, Вид, Назва документу,Дата,N",null,
+  documentsGrid.setHeader("file,type_id,Статус,Видавник, Вид, Назва документу,Дата,N",null,
                           [  "text-align:center;"
                             ,"text-align:center;"
                             ,"text-align:center;"
@@ -108,36 +129,22 @@ eXcell_myDelete.prototype = new eXcell;// nests all other methods from the base 
                             ,"text-align:center;"
                             ,"text-align:center;"
                             ,"text-align:center;"
-                            ,"text-align:center;"
                           ]);                            //sets the header labels
-  documentsGrid.setColumnIds("id,file,type_id,status_name,author_name,type_name,name,date,num");                            //sets the column ids
-  documentsGrid.setInitWidths("0,0,0,100,200,100,*,100,100");                                 //sets the initial widths of columns
-  documentsGrid.setColAlign("left,left,left,left,left,left,left,center,left");                                //sets the horizontal alignment
+  documentsGrid.setColumnIds("file,type_id,status_name,author_name,type_name,name,date,num");                            //sets the column ids
+  documentsGrid.setInitWidths("0,0,100,200,100,*,100,100");                                 //sets the initial widths of columns
+  documentsGrid.setColAlign("left,left,left,left,left,left,center,left");                                //sets the horizontal alignment
    
-  documentsGrid.setColTypes("ro,ro,ro,ro,ro,ro,ro,myDate,ro");                                      //sets the types of columns
-  documentsGrid.setColSorting("str,str,str,str,str,str,str,str");                                 //sets the sorting types of columns
+  documentsGrid.setColTypes("ro,ro,ro,ro,ro,ro,myDate,ro");                                      //sets the types of columns
+  documentsGrid.setColSorting("str,str,str,str,str,str,str");                                 //sets the sorting types of columns
 //  documentsGrid.attachHeader(",,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");       //sets the filters for columns
   documentsGrid.setColumnHidden(0,1); //hides the 1st column
   documentsGrid.setColumnHidden(1,1); //hides the 1st column
-  documentsGrid.setColumnHidden(2,1); //hides the 1st column
   documentsGrid.init();
-//documentsGrid.insertColumn(2); 
+
   var dataProc = new dataProcessor("app_server/dataGrid.php");
   dataProc.init(documentsGrid);
-  dataProc.attachEvent("onBeforeUpdate", function (id, status, data) {
-        window.console.log(data);
-//
-//        data.splice(data.indexOf(data['c8']), 1);
-//        data.splice(data.indexOf(data['c9']), 1);
-        delete data['c9'];
-        delete data['c10'];
-        window.console.log(data);
-//       data.workload = data.manhours;
-//       if(data.type =='resource' && ('nomenckl_id' in data )){
-//         data.nomenckl_id == data.parent;
-//       }
-       return true;
-  });
+  
+
   
   
 //  toolbarD = layout.cells("d").attachToolbar()
@@ -172,6 +179,9 @@ eXcell_myDelete.prototype = new eXcell;// nests all other methods from the base 
     toolbarC.addButton('button_editor', 5, 'Редактор',"fa fa-pencil",false); 
     toolbarC.setItemToolTip('button_editor',"Редактор документов");
   }
+  
+  editFormCreate();
+editWindow.window('editWindow').hide();
 
 
 
