@@ -8,9 +8,17 @@ include ('db_pdo.php');
 // print_r($_REQUEST);
 //
 // die();
- 
+
+
+
+
 $grid_connector = new GridConnector($res, "PDO");
 $grid_connector->enable_log("Log",true);
+
+
+
+
+
 function getTaskColumns() {
 	$columns = array (
                     'file'
@@ -50,10 +58,13 @@ $grid_connector->set_options("topic_id",$filter4);
 //$grid_connector->render_table("docs","id",getTaskColumns());
 
 //
-$something ='qq';
+
+
+
 $sql = "
   SELECT 
-  file
+  docs.id
+  ,file
   ,type_id
   ,sts.name as status_name 
   ,aus.name as author_name
@@ -66,7 +77,19 @@ $sql = "
   LEFT JOIN types as tps ON docs.type_id = tps.id
   LEFT JOIN authors as aus ON docs.author_id = aus.id
   ";
-$grid_connector->render_sql($sql, 'id', getTaskColumns())
+
+
+ if(!$_REQUEST['connector']){
+  $grid_connector->render_table('docs', 'id', getTaskColumns());
+//   print_r($_REQUEST);
+//   print_r(1111111111);
+//   print_r($_REQUEST['!nativeeditor_status']);
+//   die();
+//  $grid_connector->render_sql($sql, 'id', getTaskColumns());
+}  else {
+  $grid_connector->render_sql($sql, 'id', getTaskColumns());
+}
+
 
 
 ?>

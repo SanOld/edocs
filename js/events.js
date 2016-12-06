@@ -38,22 +38,49 @@ toolbarMain.attachEvent("onStateChange", function(id, state){
   }
 });
 documentsGrid.attachEvent("onRowSelect", function(id,ind){
-
+  var id = documentsGrid.getSelectedId();
   var docName = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('file')).getValue();
   var docType = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('type_id')).getValue();
-  var oIframe = document.getElementsByTagName('iframe')[0];
-  var path;
 
-  path = (docType == 8) ? docsUploaded : docsPath
-  edocs.message(docName);
-  edocs.message(path);
-  if (docName.search(/\.html/i) != -1){  
-    oIframe.src = path + docName;
+  if(gridDeleteMode){
+    
+    documentsGrid.deleteRow(documentsGrid.getSelectedId());
+
+    
+//    window.dhx.ajax.del("../app_server/dataGrid.php?id="+id, function(r){
+//        var t = window.dhx.s2j(r.xmlDoc.responseText); // convert response to json object
+//        if (t != null && t.status == "ok") {
+//            
+//            edocs.message("Строка удалена!");
+//        } else {
+//          edocs.message("Неудачная попытка удаления!");
+//        }
+//    });
+
+    gridDeleteMode = !gridDeleteMode;
   } else {
-    oIframe.src = "http://docs.google.com/viewer?url=" + path + docName + "&embedded=true";
-//    oIframe.src = "https://docs.google.com/viewerng/viewer?url=http://innakhx4.bget.ru/" + docName + "&embedded=true";  
+
+//    var oIframe = document.getElementsByTagName('iframe')[0];
+//    var path;
+//
+//    path = (docType == 8) ? docsUploaded : docsPath
+//    edocs.message(docName);
+//    edocs.message(path);
+//    if (docName.search(/\.html/i) != -1){  
+//      oIframe.src = path + docName;
+//    } else {
+//      oIframe.src = "http://docs.google.com/viewer?url=" + path + docName + "&embedded=true";
+//  //    oIframe.src = "https://docs.google.com/viewerng/viewer?url=http://innakhx4.bget.ru/" + docName + "&embedded=true";  
+//    }  
   }
+
+ 
 }); 
+
+
+
+
+
 
 var admin_columns_show = false;
 documentTree.attachEvent("onSelect", function(id, mode){

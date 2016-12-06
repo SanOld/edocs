@@ -9,6 +9,7 @@ var layout,
     toolbarC,
     toolbarD;
 var active_filter = 'type_id';
+var gridDeleteMode = false;
 
 $(document).ready(function() {
   if(ENV == 'dev'){

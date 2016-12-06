@@ -1,5 +1,5 @@
 <?php
-define('ENV', 'prod'); //prod or dev
+define('ENV', 'dev'); //prod or dev
 define('SECRET_KEY', '240bcd8f829ea1cc9a6e094eb3bd1bc1'); 
 
 
