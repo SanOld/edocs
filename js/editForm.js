@@ -36,6 +36,7 @@ editForm = editWindowElement.attachForm();
 editForm.loadStruct("data/form.xml");                                   //loads controls, specified in the "data/form.xml" file to the form
 editForm.bind(documentsGrid);
 
+editWindow.window('editWindow').hide();
 }
 
 function editFormShow (){

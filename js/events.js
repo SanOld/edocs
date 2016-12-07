@@ -52,25 +52,24 @@ documentsGrid.attachEvent("onRowSelect", function(id,ind){
   var docName = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('file')).getValue();
   var docType = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('type_id')).getValue();
   
-  switch (true) {
-    case gridDeleteMode:
+  if (gridDeleteMode) {
       documentsGrid.deleteRow(documentsGrid.getSelectedId());
       gridDeleteMode = !gridDeleteMode;    
-      break; 
-    default:
+  } else if(ENV != 'dev') {
+    
       var oIframe = document.getElementsByTagName('iframe')[0];
       var path;
 
-      path = (docType == 8) ? docsUploaded : docsPath
+      
       edocs.message(docName);
       edocs.message(path);
       if (docName.search(/\.html/i) != -1){  
         oIframe.src = path + docName;
       } else {
-        oIframe.src = "http://docs.google.com/viewer?url=" + path + docName + "&embedded=true";
+        oIframe.src = "http://docs.google.com/viewer?url=" + docsPath + docName + "&embedded=true";
     //    oIframe.src = "https://docs.google.com/viewerng/viewer?url=http://innakhx4.bget.ru/" + docName + "&embedded=true";  
       }       
-      break;
+
   }
 
   if(gridDeleteMode){

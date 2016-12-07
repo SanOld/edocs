@@ -180,8 +180,8 @@ eXcell_myEdit.prototype = new eXcell;// nests all other methods from the base cl
     toolbarC.setItemToolTip('button_editor',"Редактор документов");
   }
   
-  editFormCreate();
-editWindow.window('editWindow').hide();
+  editFormCreate(); //created edit form
+
 
 
 

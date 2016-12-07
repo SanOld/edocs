@@ -4,7 +4,7 @@ define('SECRET_KEY', '240bcd8f829ea1cc9a6e094eb3bd1bc1');
 
 
 define('BASE_PATH', dirname(__DIR__) . "/");
-define('UPLOAD_PATH', BASE_PATH . "upload/");
+define('UPLOAD_PATH', BASE_PATH . "docs/");
 
 
 switch ( ENV ) {

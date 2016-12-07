@@ -17,12 +17,11 @@ var editWindowElement;
 var editForm
 
 $(document).ready(function() {
+  edocs.message("Режим: " + ENV);
   if(ENV == 'dev'){
     docsPath = "http://expert/docs/";
-    docsUploaded = "http://expert/uploaded/";    
-  } else {
+    docsUploaded = "http://expert/uploaded/";  } else {
     docsPath = "http://innakhx4.beget.tech/docs/";
-    docsUploaded = "http://innakhx4.beget.tech/uploaded/"; 
   } 
   
   include("/js/utils.js?"+HASH); //форма загрузки файлоф
