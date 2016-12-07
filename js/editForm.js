@@ -8,19 +8,6 @@ var height = 300;
 var left = ($(window).width() - width)/2;
 var right = ($(window).height() - height)/2;
 
-//var formData = [
-//      {type: "fieldset", label: "Загрузчик", list:[
-//        {type: "input"
-//          , name: "myFiles"
-//          , inputWidth: width - 100
-//          , inputHeight: 300
-//          , url: "../app/dhtmlxform_item_upload.php"
-//          , swfPath: "uploader.swf"
-//          , swfUrl: "../app/dhtmlxform_item_upload.php"
-//        }  
-//      ]}
-//    ];
-
 editWindow = new dhtmlXWindows();
 //			editWindow.attachViewportTo("winVP");
 editWindowElement = editWindow.createWindow('editWindow', left, right, width, height);

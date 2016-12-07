@@ -9,9 +9,11 @@
     this.isDisabled = function(){ return true; } 
     this.setValue=function(val){
         // actual data processing may be placed here, for now we just set value as it is
-        var date = window.dhx.str2date(val, "%Y-%m-%d %H:%i:%s");
+        var date = (typeof val  == 'object') ? val :window.dhx.str2date(val, "%Y-%m-%d %H:%i:%s");
+//        var date = window.dhx.str2date(val, "%Y-%m-%d %H:%i:%s");
         val = window.dhx.date2str(date, "%d-%m-%Y");
         this.setCValue(val); 
+
     }
 }
 eXcell_myDate.prototype = new eXcell;// nests all other methods from the base class

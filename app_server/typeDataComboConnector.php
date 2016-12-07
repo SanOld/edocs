@@ -8,6 +8,6 @@ include ('db_pdo.php');
  
 $data = new ComboConnector($res, "PDO");
 $data->enable_log("Log",true);
-$data->render_table("types","id","name");
+$data->render_table("types","name","name");
 
 

@@ -50,7 +50,7 @@ documentsGrid.attachEvent("onBeforeSelect", function(new_row,old_row,new_col_ind
 documentsGrid.attachEvent("onRowSelect", function(id,ind){
   var id = documentsGrid.getSelectedId();
   var docName = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('file')).getValue();
-  var docType = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('type_id')).getValue();
+//  var docType = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('type_id')).getValue();
   
   if (gridDeleteMode) {
       documentsGrid.deleteRow(documentsGrid.getSelectedId());
@@ -170,7 +170,7 @@ editForm.attachEvent("onButtonClick", function(id){
   switch (id) {
     case 'submit':
       var dhxCalendar = editForm.getCalendar('date');
-      dhxCalendar.setFormatedDate("%Y-%m-%d %H:%i:%s");
+//      dhxCalendar.setFormatedDate("%Y-%m-%d %H:%i:%s");
   
 //      window.console.log(editForm.getCalendar('date')._dateFormat="");
       editForm.save();  

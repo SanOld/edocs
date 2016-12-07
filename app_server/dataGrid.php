@@ -7,7 +7,7 @@ include ('db_pdo.php');
 
 $grid_connector = new GridConnector($res, "PDO");
 $grid_connector->enable_log("Log",true);
-
+$grid_connector->event->attach("beforeProcessing",'handleBeforeProcessing');
 
 function getTaskColumns() {
 	$columns = array (
@@ -67,21 +67,58 @@ $sql = "
   LEFT JOIN types as tps ON docs.type_id = tps.id
   LEFT JOIN authors as aus ON docs.author_id = aus.id
   ";
+//$sql_update ="
+//  UPDATE docs
+//  SET 
+//  "
+$ids = explode(",",$_REQUEST['ids']);
+foreach ( $ids as $value ) {
+  $action = $value."_!nativeeditor_status";
+
+  switch ( $_REQUEST[$action] ) {
+    case 'updated':
+// print_r($sql);
+//      die();
+      $grid_connector->render_table('docs', 'id', getTaskColumns());
 
 
-$action = $_REQUEST['ids']."_!nativeeditor_status";
+      break;
+    case 'deleted':
+      $grid_connector->render_table('docs', 'id', getTaskColumns());
+      break;
 
-switch ( $_REQUEST[$action] ) {
-  case 'updated':
-    $grid_connector->render_sql($sql, 'id', getTaskColumns());
-    break;
-  case 'deleted':
-    $grid_connector->render_table('docs', 'id', getTaskColumns());
-    break;
+    default:
+      $grid_connector->render_sql($sql, 'id', getTaskColumns());
+      break;
+  }  
+}
 
-  default:
-    $grid_connector->render_sql($sql, 'id', getTaskColumns());
-    break;
+
+
+
+
+
+function handleBeforeProcessing($action){
+
+$res = new PDO ( "mysql:dbname=" . DB_DATABASE . ";host=" . DB_HOST, DB_USER, DB_PASSWORD );
+$connector = new Connector($res, "PDO");
+//$temp->configure("some_table");
+  
+  $fieldArray = array( 'status_name'=> array('table'=>'statuses','field'=>'status_id')
+                      ,'author_name'=> array('table'=>'authors','field'=>'author_id')
+                      ,'type_name'=>   array('table'=>'types','field'=>'type_id')
+  );
+  foreach ( $fieldArray as $key => $value ) {
+
+    $result = $connector->sql->query("SELECT id FROM ".$value['table']." WHERE name='".$action->get_value($key)."'");
+    $data = $connector->sql->get_next($result);
+
+    $action->add_field($value['field'],$data['id']);
+    $action->set_value($value['field'],$data['id']);
+    $action->remove_field($key,$action->get_value($key));
+  }
+
+//  $action->success(); //завершение процесс коннектора
 }
 
 ?>
