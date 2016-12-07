@@ -105,7 +105,7 @@ function doAfterGridUpdate(){
 }
 function gridAttachAdminColumns(){
   var columnsNumber = documentsGrid.getColumnsNum();
-  documentsGrid.insertColumn(0,'Вибір,','ch',50,'na','center','top',null);
+  documentsGrid.insertColumn(0,'Вибір,','myCheck',50,'na','center','top',null);
   var columnsNumber = documentsGrid.getColumnsNum();
   documentsGrid.insertColumn(columnsNumber,'','myEdit',50,'na','center','top',null);
   var columnsNumber = documentsGrid.getColumnsNum();
@@ -188,6 +188,17 @@ editForm.attachEvent("onBeforeSave", function (id, values){
 return true;
 });
 
+toolbarC.attachEvent("onClick", function(id){
+  switch (id) {
+    case 'button_editor':
+      window.console.log(checkObject);
+      for(var t in checkObject){
+        window.console.log(t + ":" + checkObject[t]);
+      }
+      break;
+
+  }
+})
 //toolbarMain.attachEvent("onclick",function(id){                                //attaches a handler function to the "onclick" event
 //    if(id=="newContact"){                                                  //'newContact' is the id of the button in the toolbar
 //        var rowId=documentsGrid.uid();                                      //generates an unique id

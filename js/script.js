@@ -1,4 +1,42 @@
- 
+
+ function eXcell_myCheck(cell){ // the eXcell name is defined here
+    var _this = this;
+    var value = 0;
+    if (cell){            // the default pattern, just copy it
+        this.cell = cell;
+        this.grid = this.cell.parentNode.grid;
+        var row_id=this.cell.parentNode.idd;
+    }
+
+    this.edit = function(){alert(1)} //read-only cell doesn't have edit method
+    // the cell is read-only, so it's always in the disabled state
+    this.isDisabled = function(){ return true; } 
+    this.setValue=function(val){
+//        this.setCValue("<input type='button' value='"+val+"'>",val); 
+
+        this.setCValue('<input class="rowcheck" type="checkbox">',val); 
+        
+    }
+    this.getValue=function(){
+        return this.cell.firstChild.checked; // get button label
+    }
+    this.cell.onclick=function(e){
+      if(_this.getValue()){
+        checkObject[row_id] = 1;
+      } else {
+        if(row_id in checkObject){
+//          arr.splice(arr[row_id],1);
+          delete checkObject[row_id];
+        }
+      }
+    }
+    
+   
+}
+eXcell_myCheck.prototype = new eXcell;// nests all other methods from the base class
+
+
+
  function eXcell_myDate(cell){ // the eXcell name is defined here
     if (cell){            // the default pattern, just copy it
         this.cell = cell;
@@ -19,11 +57,7 @@
 }
 eXcell_myDate.prototype = new eXcell;// nests all other methods from the base class
 
-function removeRow(){
-    var selId = documentsGrid.getSelectedId();       //gets the Id of the selected row
-    alert('will remove: ' + selId)
-    documentsGrid.deleteRow(selId);            //deletes the row with the specified id
-}
+
 
  function eXcell_myDelete(cell){ // the eXcell name is defined here
     if (cell){                // the default pattern, just copy it
@@ -39,7 +73,7 @@ function removeRow(){
     this.isDisabled = function(){ return true; }
     this.setValue=function(val){
 //        this.setCValue("<input type='button' value='"+val+"'>",val); 
-        this.setCValue('<button type="button" class="btn btn-default btn-sm" onclick=";" ><span class="fa fa-close"></span></button>',val); 
+        this.setCValue('<button type="button" class="btn btn-default btn-sm"  ><span class="fa fa-close"></span></button>',val); 
     }
 }
 eXcell_myDelete.prototype = new eXcell;// nests all other methods from the base class
@@ -64,6 +98,13 @@ eXcell_myDelete.prototype = new eXcell;// nests all other methods from the base 
     }
 }
 eXcell_myEdit.prototype = new eXcell;// nests all other methods from the base class
+
+
+function removeRow(){
+    var selId = documentsGrid.getSelectedId();       //gets the Id of the selected row
+    alert('will remove: ' + selId)
+    documentsGrid.deleteRow(selId);            //deletes the row with the specified id
+}
 
 
 
@@ -138,9 +179,11 @@ eXcell_myEdit.prototype = new eXcell;// nests all other methods from the base cl
    
   documentsGrid.setColTypes("ro,ro,ro,ro,ro,myDate,ro");                                      //sets the types of columns
   documentsGrid.setColSorting("str,str,str,str,str,str");                                 //sets the sorting types of columns
-  documentsGrid.attachHeader(",,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");       //sets the filters for columns
+  documentsGrid.attachHeader(",#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");       //sets the filters for columns
   documentsGrid.setColumnHidden(0,1); //hides the 1st column
-
+  documentsGrid.enableMultiselect(true);
+  documentsGrid.enableAutoWidth(true);
+	documentsGrid.enableAutoHeight(true);
   documentsGrid.init();
 
   var dataProc = new dataProcessor("app_server/dataGrid.php");

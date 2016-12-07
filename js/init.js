@@ -11,6 +11,7 @@ var layout,
 var active_filter = 'type_id';
 var gridDeleteMode = false;
 var admin_columns_show = false;
+var checkObject = {}; //j,]trn чекнутых строк
 
 var editWindow //объявлена глобально для keyEvents
 var editWindowElement;
