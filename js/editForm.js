@@ -46,17 +46,13 @@ var formData = [
 
 editForm = editWindowElement.attachForm();
 editForm = editWindowElement.attachForm(formData);
-//editForm.loadStruct("data/form.xml");                                   //loads controls, specified in the "data/form.xml" file to the form
 editForm.bind(documentsGrid);
-
 editWindow.window('editWindow').hide();
 }
 
 function editFormShow (){
-//  editWindowElement.show();
 
-editWindow.window('editWindow').show();
-setTimeout(function(){documentsGrid.selectRow(documentsGrid.getSelectedId());},0);
+  editWindow.window('editWindow').show();
+  documentsGrid.selectRowById(documentsGrid.getSelectedRowId());
 
-  
 }

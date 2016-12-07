@@ -9,9 +9,10 @@
     this.isDisabled = function(){ return true; } 
     this.setValue=function(val){
         // actual data processing may be placed here, for now we just set value as it is
-        var date = (typeof val  == 'object') ? val :window.dhx.str2date(val, "%Y-%m-%d %H:%i:%s");
-//        var date = window.dhx.str2date(val, "%Y-%m-%d %H:%i:%s");
-        val = window.dhx.date2str(date, "%d-%m-%Y");
+//        window.dhx.str2date(val, "%d-%m-%Y");
+        var val = (typeof val  == 'string') ? val : window.dhx.date2str(val, "%d-%m-%Y");
+//        
+//        val = window.dhx.date2str(date, "%d-%m-%Y");
         this.setCValue(val); 
 
     }
@@ -51,7 +52,7 @@ eXcell_myDelete.prototype = new eXcell;// nests all other methods from the base 
         this.cell.onclick = function(e){ 
 //          (e||event).cancelBubble=true;
             gridEditMode = true;
-            editFormShow(layout);
+            editFormShow();
         }
     }    
     this.edit = function(){}  //read-only cell doesn't have edit method
@@ -122,7 +123,7 @@ eXcell_myEdit.prototype = new eXcell;// nests all other methods from the base cl
 
   documentsGrid = layout.cells("c").attachGrid();                             //initializes dhtmlxGrid
   documentsGrid.setImagePath("../imgs/dhxgrid_material/");
-  documentsGrid.setHeader("file,type_id,Статус,Видавник, Вид, Назва документу,Дата,N",null,
+  documentsGrid.setHeader("file,Статус,Видавник, Вид, Назва документу,Дата,N",null,
                           [  "text-align:center;"
                             ,"text-align:center;"
                             ,"text-align:center;"
@@ -130,17 +131,16 @@ eXcell_myEdit.prototype = new eXcell;// nests all other methods from the base cl
                             ,"text-align:center;"
                             ,"text-align:center;"
                             ,"text-align:center;"
-                            ,"text-align:center;"
                           ]);                            //sets the header labels
-  documentsGrid.setColumnIds("file,type_id,status_name,author_name,type_name,name,date,num");                            //sets the column ids
-  documentsGrid.setInitWidths("0,0,100,200,100,*,100,100");                                 //sets the initial widths of columns
-  documentsGrid.setColAlign("left,left,left,left,left,left,center,left");                                //sets the horizontal alignment
+  documentsGrid.setColumnIds("file,status_name,author_name,type_name,name,date,num");                            //sets the column ids
+  documentsGrid.setInitWidths("0,100,200,100,*,100,100");                                 //sets the initial widths of columns
+  documentsGrid.setColAlign("left,left,left,left,left,center,left");                                //sets the horizontal alignment
    
-  documentsGrid.setColTypes("ro,ro,ro,ro,ro,ro,myDate,ro");                                      //sets the types of columns
-  documentsGrid.setColSorting("str,str,str,str,str,str,str");                                 //sets the sorting types of columns
-  documentsGrid.attachHeader(",,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");       //sets the filters for columns
+  documentsGrid.setColTypes("ro,ro,ro,ro,ro,myDate,ro");                                      //sets the types of columns
+  documentsGrid.setColSorting("str,str,str,str,str,str");                                 //sets the sorting types of columns
+  documentsGrid.attachHeader(",,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");       //sets the filters for columns
   documentsGrid.setColumnHidden(0,1); //hides the 1st column
-  documentsGrid.setColumnHidden(1,1); //hides the 1st column
+
   documentsGrid.init();
 
   var dataProc = new dataProcessor("app_server/dataGrid.php");

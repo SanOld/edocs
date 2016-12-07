@@ -12,7 +12,6 @@ $grid_connector->event->attach("beforeProcessing",'handleBeforeProcessing');
 function getTaskColumns() {
 	$columns = array (
                     'file'
-                    ,'type_id'
                     ,'status_name'
                     ,'author_name'
                     ,'type_name'
