@@ -6,6 +6,7 @@ function Do(e, kode){
         if (typeof uploadWindow == 'object' && uploadWindow.unload != null) {
           uploadWindow.unload();
           uploadWindow = null;
+          editWindow.hide();
         }
                 break;
         case 46://delete

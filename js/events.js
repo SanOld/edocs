@@ -169,6 +169,10 @@ dataProc.attachEvent("onRowMark", function (id, state, mode) {
 editForm.attachEvent("onButtonClick", function(id){ 
   switch (id) {
     case 'submit':
+      var dhxCalendar = editForm.getCalendar('date');
+      dhxCalendar.setFormatedDate("%Y-%m-%d %H:%i:%s");
+  
+//      window.console.log(editForm.getCalendar('date')._dateFormat="");
       editForm.save();  
       break;
     case 'close':
@@ -176,6 +180,12 @@ editForm.attachEvent("onButtonClick", function(id){
       break;
   }//attaches a handler function to the "onButtonClick" event
                                                     //sends the values of the updated row to the server
+});
+editForm.attachEvent("onBeforeSave", function (id, values){
+    //your code here
+    alert(1)
+    window.console.log(id);window.console.log(values);
+return true;
 });
 
 //toolbarMain.attachEvent("onclick",function(id){                                //attaches a handler function to the "onclick" event

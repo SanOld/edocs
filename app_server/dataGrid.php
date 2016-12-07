@@ -5,18 +5,8 @@ include('db.php');
 include ('grid_connector.php');
 include ('db_pdo.php');
 
-// print_r($_REQUEST);
-//
-// die();
-
-
-
-
 $grid_connector = new GridConnector($res, "PDO");
 $grid_connector->enable_log("Log",true);
-
-
-
 
 
 function getTaskColumns() {
