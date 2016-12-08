@@ -7,7 +7,7 @@ var height = 550;
 var left = ($(window).width() - width)/2;
 var right = ($(window).height() - height)/2;
 
-searchWindow = new dhtmlXWindows();
+searchWindow = new dhtmlXWindows(); 
 //			searchWindow.attachViewportTo("winVP");
 searchWindowElement = searchWindow.createWindow('searchWindow', left, right, width, height);
 searchWindow.window('searchWindow').button('close').hide();
@@ -74,9 +74,11 @@ var formData = [
 
 searchForm = searchWindowElement.attachForm();
 searchForm = searchWindowElement.attachForm(formData);
-searchWindow.window('searchWindow').hide();
+//searchWindow.window('searchWindow').hide();
+searchFormEvent();
 }
 
 function searchFormShow(){
+    searchFormCreate();
     searchWindow.window('searchWindow').show();
 }

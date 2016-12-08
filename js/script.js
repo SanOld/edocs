@@ -158,7 +158,7 @@ function removeRow(){
                             ,"text-align:center;"
                           ]);                            //sets the header labels
   documentsGrid.setColumnIds("file,topic_name,status_name,author_name,type_name,name,date,num");                            //sets the column ids
-  documentsGrid.setInitWidths("0,0,100,200,100,*,100,100");                                 //sets the initial widths of columns
+  documentsGrid.setInitWidths("0,0,100,150,150,*,100,100");                                 //sets the initial widths of columns
   documentsGrid.setColAlign("left,left,left,left,left,left,center,left");                                //sets the horizontal alignment
    
   documentsGrid.setColTypes("ro,ro,ro,ro,ro,ro,myDate,ro");                                      //sets the types of columns
@@ -211,7 +211,7 @@ function removeRow(){
   }
   
   editFormCreate(); //created edit form
-  searchFormCreate();
+//  searchFormCreate();
 
 
 

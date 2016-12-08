@@ -18,11 +18,12 @@ var editWindow; //объявлена глобально для keyEvents
 var editWindowElement;
 var editForm;
 
-var searchWindow; //объявлена глобально для keyEvents
+var searchWindow 
 var searchWindowElement;
 var searchForm;
 
 $(document).ready(function() {
+  //объявлена глобально для keyEvents
   edocs.message("Режим: " + ENV);
   if(ENV == 'dev'){
     docsPath = "http://expert/docs/";

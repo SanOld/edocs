@@ -6,17 +6,26 @@ function Do(e, kode){
         if (typeof uploadWindow == 'object' && uploadWindow.unload != null) {
           uploadWindow.unload();
           uploadWindow = null;
-          editWindow.hide();
         }
+        if ( editWindow instanceof dhtmlXWindows ) {
+          editWindow.window('editWindow').hide();
+        }
+        if (searchWindow instanceof dhtmlXWindows ) {
+          searchWindow.window('searchWindow').hide();
+        }
+
                 break;
         case 46://delete
                 break;
         case 8://backspace
  
                 break;
-        case 50://2
-
-                break;
+        case 13://enter
+          if (searchWindow instanceof dhtmlXWindows && searchWindow.isWindow('searchWindow')) {
+            searchFormSend();
+            searchWindow.window('searchWindow').close();
+          }
+          break;
         default:
 //                alert(kode);
                 break;  

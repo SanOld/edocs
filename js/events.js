@@ -194,28 +194,23 @@ editForm.attachEvent("onBeforeChange", function (name, old_value, new_value){
 return true;
 });
 
-searchForm.attachEvent("onButtonClick", function(id){
+function searchFormEvent(){
+ searchForm.attachEvent("onButtonClick", function(id){
   switch (id) {
     case 'submit':
-      var dhxCalendar = editForm.getCalendar('date');
-      searchForm.send("app_server/dataGrid.php?connector=true", "get", function(loader, response){
-        documentsGrid.clearAll();
-        doBeforeGridUpdate();
-        documentsGrid.parse(response);
-        doAfterGridUpdate();
-      });
-
+      searchFormSend();
       break;
     case 'submit_close':
       
-      searchWindow.window('searchWindow').hide();
+      searchWindow.window('searchWindow').close();
       break;      
     case 'close':
-      searchWindow.window('searchWindow').hide();  
+      searchWindow.window('searchWindow').close();  
       break;
   }//attaches a handler function to the "onButtonClick" event
                                                     //sends the values of the updated row to the server
-});
+}); 
+}
 
 toolbarC.attachEvent("onClick", function(id){
   switch (id) {

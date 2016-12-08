@@ -10,3 +10,11 @@ function showDocs(oLink) {
     }
 }
 
+function searchFormSend(){
+        searchForm.send("app_server/dataGrid.php?connector=true", "get", function(loader, response){
+        documentsGrid.clearAll();
+        doBeforeGridUpdate();
+        documentsGrid.parse(response);
+        doAfterGridUpdate();
+      });
+}
