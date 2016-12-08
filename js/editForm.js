@@ -20,10 +20,10 @@ editWindowElement.setText("Редактор записи");
 var formData = [
   {type:"input",name:"name",label:"Назва",value:"", rows: 3}
  ,{type:"settings", labelWidth: "100", inputWidth: "450"}
- ,{type: "combo", label: "Тема", name: "topic_name", connector: "app_server/topicDataComboConnector.php", filtering:"true"}
- , {type: "combo", label: "Статус", name: "status_name", connector: "app_server/statusDataComboConnector.php", filtering:"true"}
- ,{type: "combo", label: "Видавник", name: "author_name", connector: "app_server/authorDataComboConnector.php", filtering:"true"}
- ,{type: "combo", label: "Вид", name: "type_name", connector: "app_server/typeDataComboConnector.php", filtering:"true"}
+ ,{type: "combo", label: "Тема", name: "topic_name", connector: "app_server/topicConnector.php?mode=name", filtering:"true"}
+ , {type: "combo", label: "Статус", name: "status_name", connector: "app_server/statusConnector.php?mode=name", filtering:"true"}
+ ,{type: "combo", label: "Видавник", name: "author_name", connector: "app_server/authorConnector.php?mode=name", filtering:"true"}
+ ,{type: "combo", label: "Вид", name: "type_name", connector: "app_server/typeConnector.php?mode=name", filtering:"true"}
 
  
  ,{

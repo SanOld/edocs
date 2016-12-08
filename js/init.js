@@ -14,9 +14,13 @@ var gridDeleteMode = false;
 var admin_columns_show = false;
 var checkObject = {}; //j,]trn чекнутых строк
 
-var editWindow //объявлена глобально для keyEvents
+var editWindow; //объявлена глобально для keyEvents
 var editWindowElement;
-var editForm
+var editForm;
+
+var searchWindow; //объявлена глобально для keyEvents
+var searchWindowElement;
+var searchForm;
 
 $(document).ready(function() {
   edocs.message("Режим: " + ENV);
@@ -26,11 +30,12 @@ $(document).ready(function() {
     docsPath = "http://innakhx4.beget.tech/docs/";
   } 
   
-  include("/js/utils.js?"+HASH); //форма загрузки файлоф
-  include("/js/upoadForm.js?"+HASH); //форма загрузки файлоф
-  include("/js/editForm.js?"+HASH); //форма загрузки файлоф
+  include("/js/utils.js?"+HASH); 
+  include("/js/uploadForm.js?"+HASH); //форма загрузки файлов
+  include("/js/editForm.js?"+HASH); //форма редактирования файлов
+  include("/js/searchForm.js?"+HASH); //форма поиска документов
   include("/js/keyEvent.js?"+HASH); // события нажатия клавиатуры
-  include("/js/script.js?"+HASH); //форма загрузки файлоф
-  include("/js/events.js?"+HASH); //форма загрузки файлоф
+  include("/js/script.js?"+HASH); 
+  include("/js/events.js?"+HASH); 
 
 })

@@ -124,7 +124,9 @@ function removeRow(){
   toolbarMain.addButtonTwoState('button_author', 2, 'Видавник',"fa fa-edit",false);   
   toolbarMain.setItemToolTip('button_author',"Фильтр документов по издателю");
   toolbarMain.addButtonTwoState('button_topic', 3, 'Тема',"fa fa-text-height",false);   
-  toolbarMain.setItemToolTip('button_topic',"Фильтр документов по темам");  
+  toolbarMain.setItemToolTip('button_topic',"Фильтр документов по темам");
+  toolbarMain.addButton     ('button_search', 6, 'Пошук',"fa fa-search",false);   
+  toolbarMain.setItemToolTip('button_search',"Завантаження файлів масово з папки");
 
   documentTree = layout.cells("a").attachTreeView({
 //              parent:         "treeviewObj",  // id/object, container for treeview
@@ -198,18 +200,18 @@ function removeRow(){
 
   if(USER['type'] == 'admin'){
     toolbarMain.addButton     ('button_upload', 4, 'Завантажити файли...',"fa fa-upload",false);   
-    toolbarMain.setItemToolTip('button_upload',"Загрузка файлов");
+    toolbarMain.setItemToolTip('button_upload',"Завантаження файлів");
     toolbarMain.addButton     ('button_upload_folder', 5, 'Завантажити з папки...',"fa fa-cloud-upload",false);   
-    toolbarMain.setItemToolTip('button_upload_folder',"Загрузка файлов массово из папки");
+    toolbarMain.setItemToolTip('button_upload_folder',"Завантаження файлів масово з папки");
     
     toolbarC = layout.cells("c").attachToolbar()
     toolbarC.setIconset("awesome");
     toolbarC.addButton('button_editor', 5, 'Редактор',"fa fa-pencil",false); 
-    toolbarC.setItemToolTip('button_editor',"Редактор документов");
+    toolbarC.setItemToolTip('button_editor',"Редактор документів");
   }
   
   editFormCreate(); //created edit form
-
+  searchFormCreate();
 
 
 

@@ -5,7 +5,10 @@ toolbarMain.attachEvent("onClick", function(id){
       break;
     case 'button_upload_folder':
       upoadFormShow(layout, true);
-      break;  
+      break; 
+    case 'button_search':
+      searchFormShow();
+      break;    
   }
 });
 toolbarMain.attachEvent("onStateChange", function(id, state){
@@ -37,16 +40,6 @@ toolbarMain.attachEvent("onStateChange", function(id, state){
       break;
   }
 });
-documentsGrid.attachEvent("onBeforeSelect", function(new_row,old_row,new_col_index){
-//  switch (true) {
-//    case gridEditMode:
-//      editFormShow(layout);
-//      gridEditMode = false;
-//      return true;
-//      break; 
-//  }
-  return true;
-});
 documentsGrid.attachEvent("onRowSelect", function(id,ind){
   var id = documentsGrid.getSelectedId();
   var docName = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('file')).getValue();
@@ -60,7 +53,6 @@ documentsGrid.attachEvent("onRowSelect", function(id,ind){
       var oIframe = document.getElementsByTagName('iframe')[0];
       var path;
 
-      
       edocs.message(docName);
       edocs.message(path);
       if (docName.search(/\.html/i) != -1){  
@@ -72,29 +64,24 @@ documentsGrid.attachEvent("onRowSelect", function(id,ind){
 
   }
 
-  if(gridDeleteMode){
-
-  } else {
-
- 
-  }
-
  
 }); 
 documentTree.attachEvent("onSelect", function(id, mode){
   if(mode){
     documentsGrid.clearAll();
-    if(USER['type'] == 'admin' && admin_columns_show){
-      gridDetachAdminColumns();
-      admin_columns_show = !admin_columns_show;
-    }
+    doBeforeGridUpdate();
     active_filter.text = documentTree.getItemText(id);
-//    documentsGrid.updateFromXML("app_server/dataGrid.php?connector=true&dhx_filter[" + active_filter.mode + "]=" + id, true,true,doAfterGridUpdate);
     documentsGrid.load("app_server/dataGrid.php?connector=true&dhx_filter[" + active_filter.mode + "]=" + id, doAfterGridUpdate);
 //    documentsGrid.refresh();
   }
 });  
 
+function doBeforeGridUpdate(){
+    if(USER['type'] == 'admin' && admin_columns_show){
+      gridDetachAdminColumns();
+      admin_columns_show = !admin_columns_show;
+    }
+}
 function doAfterGridUpdate(){
     if(USER['type'] == 'admin' && !admin_columns_show){
       gridAttachAdminColumns();
@@ -184,9 +171,6 @@ editForm.attachEvent("onButtonClick", function(id){
   }//attaches a handler function to the "onButtonClick" event
                                                     //sends the values of the updated row to the server
 });
-
-
-
 editForm.attachEvent("onBeforeChange", function (name, old_value, new_value){
 
   switch (name) {
@@ -207,6 +191,29 @@ editForm.attachEvent("onBeforeChange", function (name, old_value, new_value){
       break;
   }
 return true;
+});
+
+searchForm.attachEvent("onButtonClick", function(id){
+  switch (id) {
+    case 'submit':
+      var dhxCalendar = editForm.getCalendar('date');
+      searchForm.send("app_server/dataGrid.php?connector=true", "get", function(loader, response){
+        documentsGrid.clearAll();
+        doBeforeGridUpdate();
+        documentsGrid.parse(response);
+        doAfterGridUpdate();
+      });
+
+      break;
+    case 'submit_close':
+      
+      searchWindow.window('searchWindow').hide();
+      break;      
+    case 'close':
+      searchWindow.window('searchWindow').hide();  
+      break;
+  }//attaches a handler function to the "onButtonClick" event
+                                                    //sends the values of the updated row to the server
 });
 
 toolbarC.attachEvent("onClick", function(id){

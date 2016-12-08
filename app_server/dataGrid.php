@@ -23,10 +23,36 @@ function getTaskColumns() {
 	return implode ( ',', $columns );
 }
 
-//$gantt->filter("smeta_id","1");
-//$gantt->enable_order("sortorder");
+function custom_filter($filter_by){
+    if (!sizeof($filter_by->rules)) {
+      $filter_by->add("docs.name","%".$_GET['name']."%","LIKE");
+      $filter_by->add("topic_id",     $_GET['topic_id'],"LIKE");
+      $filter_by->add("status_id",    $_GET['status_id'],"LIKE");
+      $filter_by->add("author_id",    $_GET['author_id'],"LIKE");
+      $filter_by->add("type_id",      $_GET['type_id'],"LIKE");
+      $filter_by->add("num",          $_GET['num'],"LIKE");
+      $filter_by->add("date",         $_GET['date'],"LIKE");
+      
+      //if need change condition
+//      $index = $filter_by->index("date");
+//    if ($index!==false){$filter_by->rules[$index]["operation"]=">=";}      
+    }
+}
+$grid_connector->event->attach("beforeFilter","custom_filter");
 
-//$grid_connector->render_table("docs","id",getTaskColumns(),"" );
+
+
+function dateRange_filter($data){
+  if(isset($_GET['dateStart']) && $_GET['dateStart'] != ''){
+    if ($data->get_value("date") < $_GET['dateStart']){$data->skip();}
+  }
+  if(isset($_GET['dateStart']) && $_GET['dateEnd'] != ''){
+    if ($data->get_value("date") > $_GET['dateEnd']){$data->skip();}
+  }  
+         //not include into output
+}
+$grid_connector->event->attach("beforeRender","dateRange_filter");
+
 
 $filter1 = new OptionsConnector($res);
 $filter1->render_table("types","id","name");
@@ -44,10 +70,7 @@ $filter4 = new OptionsConnector($res);
 $filter4->render_table("topics","id","name");
 $grid_connector->set_options("topic_id",$filter4);
 
- 
-//$grid_connector->render_table("docs","id",getTaskColumns());
 
-//
 
 
 
