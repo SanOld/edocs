@@ -20,19 +20,19 @@ toolbarMain.attachEvent("onStateChange", function(id, state){
     case 'button_type':
       documentTree.clearAll();
       documentTree.loadStruct("app_server/dataTree.php?table=types");
-      active_filter = 'type_id';
+      active_filter.mode = 'type_id';
       layout.cells("a").setText("Типы документов");
       break;
     case 'button_author':
       documentTree.clearAll();
       documentTree.loadStruct("app_server/dataTree.php?table=authors");
-      active_filter = 'author_id';
+      active_filter.mode = 'author_id';
       layout.cells("a").setText("Издатели");
       break;
     case 'button_topic':
       documentTree.clearAll();
       documentTree.loadStruct("app_server/dataTree.php?table=topics");
-      active_filter = 'topic_id';
+      active_filter.mode = 'topic_id';
       layout.cells("a").setText("Темы");
       break;
   }
@@ -88,11 +88,10 @@ documentTree.attachEvent("onSelect", function(id, mode){
       gridDetachAdminColumns();
       admin_columns_show = !admin_columns_show;
     }
-    
-//    documentsGrid.updateFromXML("app_server/dataGrid.php?connector=true&dhx_filter[" + active_filter + "]=" + id, true,true,doAfterGridUpdate);
-    documentsGrid.load("app_server/dataGrid.php?connector=true&dhx_filter[" + active_filter + "]=" + id, doAfterGridUpdate);
+    active_filter.text = documentTree.getItemText(id);
+//    documentsGrid.updateFromXML("app_server/dataGrid.php?connector=true&dhx_filter[" + active_filter.mode + "]=" + id, true,true,doAfterGridUpdate);
+    documentsGrid.load("app_server/dataGrid.php?connector=true&dhx_filter[" + active_filter.mode + "]=" + id, doAfterGridUpdate);
 //    documentsGrid.refresh();
-
   }
 });  
 
@@ -117,7 +116,6 @@ function gridDetachAdminColumns(){
   documentsGrid.deleteColumn(columnsNumber-2);
   documentsGrid.deleteColumn(0);
 }
-
 
 dataProc.attachEvent("onBeforeUpdate", function (id, status, data) {
 //     delete data['c9'];
@@ -165,26 +163,49 @@ dataProc.attachEvent("onRowMark", function (id, state, mode) {
 //        }
 });
 
-  
 editForm.attachEvent("onButtonClick", function(id){ 
   switch (id) {
     case 'submit':
       var dhxCalendar = editForm.getCalendar('date');
-//      dhxCalendar.setFormatedDate("%Y-%m-%d %H:%i:%s");
-  
-//      window.console.log(editForm.getCalendar('date')._dateFormat="");
       editForm.save();  
+      documentsGrid.setRowHidden(documentsGrid.getSelectedRowId(), needHide); //скрываю строку при изменении атрибута отличного от выбранного в TreeView
+      needHide = false;
       break;
+    case 'submit_close':
+      var dhxCalendar = editForm.getCalendar('date');
+      editForm.save();  
+      editForm.hide();
+      documentsGrid.setRowHidden(documentsGrid.getSelectedRowId(), needHide); //скрываю строку при изменении атрибута отличного от выбранного в TreeView
+      needHide = false;
+      break;      
     case 'close':
       editWindow.window('editWindow').hide();  
       break;
   }//attaches a handler function to the "onButtonClick" event
                                                     //sends the values of the updated row to the server
 });
-editForm.attachEvent("onBeforeSave", function (id, values){
-    //your code here
-    alert(1)
-    window.console.log(id);window.console.log(values);
+
+
+
+editForm.attachEvent("onBeforeChange", function (name, old_value, new_value){
+
+  switch (name) {
+    case 'type_name':
+      if(active_filter.mode == 'type_id'){
+          needHide = (active_filter.text != new_value);
+      }
+      break;
+    case 'author_name':
+      if(active_filter.mode == 'author_id'){
+          needHide = (active_filter.text != new_value);
+      }
+      break;
+    case 'topic_name':
+      if(active_filter.mode == 'topic_id'){
+          needHide = (active_filter.text != new_value);
+      }
+      break;
+  }
 return true;
 });
 

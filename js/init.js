@@ -8,7 +8,8 @@ var layout,
     documentsGrid,
     toolbarC,
     toolbarD;
-var active_filter = 'type_id';
+var active_filter = {mode:'type_id', text:''};
+var needHide = false; //флаг для удаления записи из таблицы при изменении параметра отличного от фильтра
 var gridDeleteMode = false;
 var admin_columns_show = false;
 var checkObject = {}; //j,]trn чекнутых строк

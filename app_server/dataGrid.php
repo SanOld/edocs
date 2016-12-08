@@ -12,6 +12,7 @@ $grid_connector->event->attach("beforeProcessing",'handleBeforeProcessing');
 function getTaskColumns() {
 	$columns = array (
                     'file'
+                    ,'topic_name'
                     ,'status_name'
                     ,'author_name'
                     ,'type_name'
@@ -54,7 +55,7 @@ $sql = "
   SELECT 
    docs.id
   ,file
-  ,type_id
+  ,tcs.name as topic_name
   ,sts.name as status_name 
   ,aus.name as author_name
   ,tps.name as type_name
@@ -65,6 +66,7 @@ $sql = "
   LEFT JOIN statuses as sts ON docs.status_id = sts.id
   LEFT JOIN types as tps ON docs.type_id = tps.id
   LEFT JOIN authors as aus ON docs.author_id = aus.id
+  LEFT JOIN topics as tcs ON docs.topic_id = tcs.id
   ";
 //$sql_update ="
 //  UPDATE docs
@@ -106,6 +108,7 @@ $connector = new Connector($res, "PDO");
   $fieldArray = array( 'status_name'=> array('table'=>'statuses','field'=>'status_id')
                       ,'author_name'=> array('table'=>'authors','field'=>'author_id')
                       ,'type_name'=>   array('table'=>'types','field'=>'type_id')
+                      ,'topic_name'=>   array('table'=>'topics','field'=>'topic_id')
   );
   foreach ( $fieldArray as $key => $value ) {
 

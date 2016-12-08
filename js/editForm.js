@@ -4,7 +4,7 @@ function editFormCreate(){
 var editWindowElement;
 //window properties
 var width = 450;
-var height = 300;
+var height = 320;
 var left = ($(window).width() - width)/2;
 var right = ($(window).height() - height)/2;
 
@@ -18,8 +18,9 @@ editWindow.window('editWindow').keepInViewport(true);
 editWindowElement.setText("Редактор записи");
 
 var formData = [
-  {type:"settings", labelWidth: "100", inputWidth: "300"},
-  {type: "combo", label: "Статус", name: "status_name", connector: "app_server/statusDataComboConnector.php", filtering:"true"}
+  {type:"settings", labelWidth: "100", inputWidth: "300"}
+ ,{type: "combo", label: "Тема", name: "topic_name", connector: "app_server/topicDataComboConnector.php", filtering:"true"}
+ , {type: "combo", label: "Статус", name: "status_name", connector: "app_server/statusDataComboConnector.php", filtering:"true"}
  ,{type: "combo", label: "Видавник", name: "author_name", connector: "app_server/authorDataComboConnector.php", filtering:"true"}
  ,{type: "combo", label: "Вид", name: "type_name", connector: "app_server/typeDataComboConnector.php", filtering:"true"}
 
@@ -37,9 +38,11 @@ var formData = [
  ,{type:"input",name:"num",label:"Номер",value:""} 
 
  ,{type: "block", blockOffset: 0, offsetTop: 20, list: [
-    ,{type: "button", name: "submit", value: "Сохранить", width: 100}
-    ,{type: "newcolumn", offset:10}
-    ,{type: "button", name: "close", value: "Закрыть", width: 100}
+    ,{type: "button", name: "submit", value: "Сохранить", width: 70}
+    ,{type: "newcolumn", offset:5}
+    ,{type: "button", name: "submit_close", value: "Сохранить и Закрыть", width: 130}
+    ,{type: "newcolumn", offset:5}
+    ,{type: "button", name: "close", value: "Закрыть", width: 70}
   ]} 
 ];
 
