@@ -35,11 +35,11 @@ var formData = [
       dateFormat: "%d-%m-%Y",
       inputWidth: "450"
   }
- ,{type: "fieldset", offsetLeft: 100, offsetTop: -50,  name: "mydata", label: "Период", width:"450", list:[
+ ,{type: "fieldset", offsetLeft: 100, offsetTop: -50,  name: "mydata", label: "Період", width:"450", list:[
  ,{
       type: "calendar", 
       name: "dateStart", 
-      label: "Начало",
+      label: "Початок",
       labelWidth: "100",
       enableTime: true, 
       enableTodayButton: true,
@@ -51,7 +51,7 @@ var formData = [
  ,{
       type: "calendar", 
       name: "dateEnd", 
-      label: "Окончание",
+      label: "Закінчення",
       labelWidth: "100",
       enableTime: true, 
       enableTodayButton: true,
@@ -63,11 +63,11 @@ var formData = [
 
 
  ,{type: "block", blockOffset: 0, offsetTop: 20, list: [
-    ,{type: "button", name: "submit", value: "Найти", width: 70}
+    ,{type: "button", name: "submit", value: "Знайти", width: 70}
     ,{type: "newcolumn", offset:5}
-    ,{type: "button", name: "submit_close", value: "Найти и Закрыть", width: 130}
+    ,{type: "button", name: "submit_close", value: "Знайти і Закрити", width: 130}
     ,{type: "newcolumn", offset:5}
-    ,{type: "button", name: "close", value: "Закрыть", width: 70}
+    ,{type: "button", name: "close", value: "Закрити", width: 70}
   ]} 
 ];
 
