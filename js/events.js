@@ -14,8 +14,9 @@ toolbarMain.attachEvent("onClick", function(id){
 toolbarMain.attachEvent("onStateChange", function(id, state){
   //обновление состояния кнопок тулбара
   toolbarMain.forEachItem(function(itemId){
-    if(itemId != id){
-      toolbarMain.setItemState(itemId,!toolbarMain.getItemState(id));
+    var state = toolbarMain.getItemState(id);
+    if(itemId != id && state){
+      toolbarMain.setItemState(itemId,!state);
     }
   });
   //действия в зависимости от выбора фильтра
