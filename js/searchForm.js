@@ -35,7 +35,6 @@ var formData = [
       dateFormat: "%d-%m-%Y",
       inputWidth: "450"
   }
-  ,{type: "label", label: "Тема", name: "topic_name"}
  ,{type: "fieldset", offsetLeft: 100, offsetTop: -50,  name: "mydata", label: "Период", width:"450", list:[
  ,{
       type: "calendar", 
