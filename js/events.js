@@ -1,10 +1,10 @@
 toolbarMain.attachEvent("onClick", function(id){
   switch (id) {
     case 'button_upload':
-      upoadFormShow(layout);
+      uploadFormShow(layout);
       break;
     case 'button_upload_folder':
-      upoadFormShow(layout, true);
+      uploadFormShow(layout, true);
       break; 
     case 'button_search':
       searchFormShow();

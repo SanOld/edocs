@@ -14,8 +14,6 @@ $grid_connector->enable_log("Log",true);
 // full path for silverlight
 if (@$_REQUEST["action"] == "get_script_path") {
 	$url = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"])."/dhtmlxform_item_upload.php";
-	print_r($url);
-	die();
 }
 
 /*
@@ -33,12 +31,11 @@ if upload was good, you need to specify state=true and name - will passed in for
 
 if (@$_REQUEST["mode"] == "html5" || @$_REQUEST["mode"] == "flash") {
 	$filename = $_FILES["file"]["name"];
-	$action = move_uploaded_file($_FILES["file"]["tmp_name"],"../uploaded/".$filename);
+	$action = move_uploaded_file($_FILES["file"]["tmp_name"],UPLOAD_PATH.$filename);
   if($action){
         $grid_connector->insert(array(
         "name" => "$filename",
-        "file" => "$filename",
-        "type_id" => "8"  
+        "file" => "$filename"
     ));
         
     header("Content-Type: text/json");
@@ -66,7 +63,7 @@ if (@$_REQUEST["mode"] == "html4") {
 		print_r("{state:'cancelled'}");
 	} else {
 		$filename = $_FILES["file"]["name"];
-		// move_uploaded_file($_FILES["file"]["tmp_name"], "uploaded/".$filename);
+		 move_uploaded_file($_FILES["file"]["tmp_name"], UPLOAD_PATH.$filename);
 		print_r("{state: true, name:'".str_replace("'","\\'",$filename)."', size:".$_FILES["file"]["size"]/*filesize("uploaded/".$filename)*/.", extra: {info: 'just a way to send some extra data', param: 'some value here'}}");
 	}
 }

@@ -27,7 +27,7 @@ $(document).ready(function() {
   edocs.message("Режим: " + ENV);
   if(ENV == 'dev'){
     docsPath = "http://expert/docs/";
-    docsUploaded = "http://expert/uploaded/";  } else {
+ } else {
     docsPath = "http://innakhx4.beget.tech/docs/";
   } 
   

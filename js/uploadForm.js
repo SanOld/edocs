@@ -1,5 +1,5 @@
 var uploadWindow //объявлена глобально для keyEvents
-function upoadFormShow(layout, isFolder){
+function uploadFormShow(layout, isFolder){
 var isFolder =  isFolder ? isFolder : false;
 var uploadForm
 var w1;
