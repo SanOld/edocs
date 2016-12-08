@@ -74,6 +74,7 @@ var formData = [
 
 searchForm = searchWindowElement.attachForm();
 searchForm = searchWindowElement.attachForm(formData);
+searchForm.setItemFocus("name");
 //searchWindow.window('searchWindow').hide();
 searchFormEvent();
 }
