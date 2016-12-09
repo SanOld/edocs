@@ -21,6 +21,7 @@ function Do(e, kode){
           if(isCRTL){
             searchFormShow();
           }
+          return false;
           break;
         case 17://ctrl
           isCRTL = true;
