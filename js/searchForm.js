@@ -17,7 +17,8 @@ searchWindow.window('searchWindow').keepInViewport(true);
 searchWindowElement.setText("Поиск документов");
 
 var formData = [
-  {type:"input",name:"name",label:"Назва",value:"", rows: 3}
+  {type:"hidden",name:"search",label:"",value:"1"}
+ ,{type:"input",name:"name",label:"Назва",value:"", rows: 3}
  ,{type:"settings", labelWidth: "100", inputWidth: "450"}
  ,{type: "combo", label: "Тема", name: "topic_id", connector: "app_server/topicConnector.php?mode=id", filtering:"true"}
  , {type: "combo", label: "Статус", name: "status_id", connector: "app_server/statusConnector.php?mode=id", filtering:"true"}

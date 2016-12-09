@@ -1,7 +1,6 @@
 <?php
  
 include('db.php');
-//include('db_library.php');
 include ('grid_connector.php');
 include ('db_pdo.php');
 
@@ -23,6 +22,7 @@ function getTaskColumns() {
 	return implode ( ',', $columns );
 }
 
+
 function custom_filter($filter_by){
     if (!sizeof($filter_by->rules)) {
       $filter_by->add("docs.name","%".$_GET['name']."%","LIKE");
@@ -31,14 +31,13 @@ function custom_filter($filter_by){
       $filter_by->add("author_id",    $_GET['author_id'],"LIKE");
       $filter_by->add("type_id",      $_GET['type_id'],"LIKE");
       $filter_by->add("num",          $_GET['num'],"LIKE");
-      $filter_by->add("date",         $_GET['date'],"LIKE");
-      
-      //if need change condition
-//      $index = $filter_by->index("date");
-//    if ($index!==false){$filter_by->rules[$index]["operation"]=">=";}      
+      $filter_by->add("date",         $_GET['date'],"LIKE");     
     }
 }
-$grid_connector->event->attach("beforeFilter","custom_filter");
+if(isset($_GET['search'])){
+  $grid_connector->event->attach("beforeFilter","custom_filter");
+}
+
 
 
 
@@ -91,26 +90,34 @@ $sql = "
   LEFT JOIN authors as aus ON docs.author_id = aus.id
   LEFT JOIN topics as tcs ON docs.topic_id = tcs.id
   ";
-//$sql_update ="
-//  UPDATE docs
-//  SET 
-//  "
-$ids = explode(",",$_REQUEST['ids']);
+
+//используется для первоначального отображения грида
+if(isset($_GET['limit'])){
+  $grid_connector->set_limit($_GET['limit']);
+  $grid_connector->sort('date','DESC');
+  $grid_connector->render_sql($sql, 'id', getTaskColumns());
+}
+
+
+$ids = array('default');
+if (isset($_REQUEST['ids'])){
+  if (preg_match ("/,/", $_REQUEST['ids'])) {
+      $ids = explode(",",$_REQUEST['ids']);
+  } else {
+      $ids[0] = $_REQUEST['ids'];
+  }  
+}
+
 foreach ( $ids as $value ) {
   $action = $value."_!nativeeditor_status";
 
   switch ( $_REQUEST[$action] ) {
     case 'updated':
-// print_r($sql);
-//      die();
       $grid_connector->render_table('docs', 'id', getTaskColumns());
-
-
       break;
     case 'deleted':
       $grid_connector->render_table('docs', 'id', getTaskColumns());
       break;
-
     default:
       $grid_connector->render_sql($sql, 'id', getTaskColumns());
       break;

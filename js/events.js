@@ -83,27 +83,6 @@ function doBeforeGridUpdate(){
       admin_columns_show = !admin_columns_show;
     }
 }
-function doAfterGridUpdate(){
-    if(USER['type'] == 'admin' && !admin_columns_show){
-      gridAttachAdminColumns();
-      admin_columns_show = !admin_columns_show;
-    }
-    return true;
-}
-function gridAttachAdminColumns(){
-  var columnsNumber = documentsGrid.getColumnsNum();
-  documentsGrid.insertColumn(0,'Вибір,','myCheck',50,'na','center','top',null);
-  var columnsNumber = documentsGrid.getColumnsNum();
-  documentsGrid.insertColumn(columnsNumber,'','myEdit',50,'na','center','top',null);
-  var columnsNumber = documentsGrid.getColumnsNum();
-  documentsGrid.insertColumn(columnsNumber,'','myDelete',50,'na','center','top',null);
-}
-function gridDetachAdminColumns(){
-  var columnsNumber = documentsGrid.getColumnsNum();
-  documentsGrid.deleteColumn(columnsNumber-1);
-  documentsGrid.deleteColumn(columnsNumber-2);
-  documentsGrid.deleteColumn(0);
-}
 
 dataProc.attachEvent("onBeforeUpdate", function (id, status, data) {
 //     delete data['c9'];
@@ -201,7 +180,7 @@ function searchFormEvent(){
       searchFormSend();
       break;
     case 'submit_close':
-      
+      searchFormSend();
       searchWindow.window('searchWindow').close();
       break;      
     case 'close':
@@ -212,34 +191,11 @@ function searchFormEvent(){
 }); 
 }
 
-toolbarC.attachEvent("onClick", function(id){
-  switch (id) {
-    case 'button_editor':
-      window.console.log(checkObject);
-      for(var t in checkObject){
-        window.console.log(t + ":" + checkObject[t]);
+ if(USER['type'] == 'admin'){
+    toolbarC.attachEvent("onClick", function(id){
+      switch (id) {
+        case 'button_editor':
+          break;
       }
-      break;
-
-  }
-})
-//toolbarMain.attachEvent("onclick",function(id){                                //attaches a handler function to the "onclick" event
-//    if(id=="newContact"){                                                  //'newContact' is the id of the button in the toolbar
-//        var rowId=documentsGrid.uid();                                      //generates an unique id
-//        var pos = documentsGrid.getRowsNum();                               //gets the number of rows in the grid
-//        documentsGrid.addRow(rowId,["New contact","",""],pos);              //adds a new row to the grid. The 'addRow()' method takes 3 parameters: the row id (must be unique), the initial values of the row, the  position where the new must be inserted
-//    };
-//    if(id=="delContact"){                                                  //'delContact' is the id of the button in the toolbar
-//        var rowId = documentsGrid.getSelectedRowId();                       //gets the id of the currently selected row
-//        var rowIndex = documentsGrid.getRowIndex(rowId);                    //gets the index of the row with the specified id
-//
-//        if(rowId!=null){
-//            documentsGrid.deleteRow(rowId);                                 //deletes the currently selected row
-//            if(rowIndex!=(documentsGrid.getRowsNum()-1)){                   //checks whether  the currently selected row is NOT last in the grid
-//                documentsGrid.selectRow(rowIndex+1,true);                   //if the currently selected row isn't last - moves selection to the next row
-//            } else{                                                        //otherwise, moves selection to the previous row
-//                documentsGrid.selectRow(rowIndex-1,true)
-//            }
-//        }
-//    }
-//});
+    })
+ }

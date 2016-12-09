@@ -18,3 +18,25 @@ function searchFormSend(){
         doAfterGridUpdate();
       });
 }
+
+function doAfterGridUpdate(){
+    if(USER['type'] == 'admin' && !admin_columns_show){
+      gridAttachAdminColumns();
+      admin_columns_show = !admin_columns_show;
+    }
+    return true;
+}
+function gridAttachAdminColumns(){
+  var columnsNumber = documentsGrid.getColumnsNum();
+  documentsGrid.insertColumn(0,'Вибір,','myCheck',50,'na','center','top',null);
+  var columnsNumber = documentsGrid.getColumnsNum();
+  documentsGrid.insertColumn(columnsNumber,'','myEdit',50,'na','center','top',null);
+  var columnsNumber = documentsGrid.getColumnsNum();
+  documentsGrid.insertColumn(columnsNumber,'','myDelete',50,'na','center','top',null);
+}
+function gridDetachAdminColumns(){
+  var columnsNumber = documentsGrid.getColumnsNum();
+  documentsGrid.deleteColumn(columnsNumber-1);
+  documentsGrid.deleteColumn(columnsNumber-2);
+  documentsGrid.deleteColumn(0);
+}
