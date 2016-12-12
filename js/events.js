@@ -199,3 +199,12 @@ function searchFormEvent(){
 }); 
 }
 
+
+ 
+ documentTree.attachEvent("onXLE", function(){
+    // after loading ended and data rendered (before user's callback)
+    // your code here
+    if(USER['type'] != 'admin' ){
+      documentTree.deleteItem("Корзина__{group_param}");
+    }
+});
