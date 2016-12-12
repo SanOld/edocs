@@ -60,7 +60,20 @@ documentsGrid.attachEvent("onRowSelect", function(id,ind){
 //  var docType = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('type_id')).getValue();
   
   if (gridDeleteMode) {
-      documentsGrid.deleteRow(documentsGrid.getSelectedId());
+      
+      var type = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('type_name'));
+      if(type.getValue() == 'Корзина'){
+        documentsGrid.deleteRow(documentsGrid.getSelectedId());
+      } else {
+
+        type.setValue("Корзина");
+        
+        dataProc.setUpdated(documentsGrid.getSelectedId(),true);
+        documentsGrid.setRowHidden(documentsGrid.getSelectedId(),true);
+
+      }
+
+      
       gridDeleteMode = !gridDeleteMode;    
   } else if(ENV != 'dev') {
     
@@ -79,6 +92,12 @@ documentsGrid.attachEvent("onRowSelect", function(id,ind){
 
  
 }); 
+
+
+documentsGrid.attachEvent("onCellChanged", function(rId,cInd,nValue){
+
+});
+
 documentTree.attachEvent("onSelect", function(id, mode){
   if(mode){
     documentsGrid.clearAll();
@@ -90,11 +109,7 @@ documentTree.attachEvent("onSelect", function(id, mode){
 
 
 
-dataProc.attachEvent("onBeforeUpdate", function (id, status, data) {
-//     delete data['c9'];
-//     delete data['c10'];
-   return true;
-});
+
 dataProc.attachEvent("onAfterUpdate", function(id, action, tid, response){
 
   switch (action) {
@@ -121,20 +136,7 @@ dataProc.attachEvent("onAfterUpdate", function(id, action, tid, response){
   return true;
   }
 });
-dataProc.attachEvent("onRowMark", function (id, state, mode) {
-//       window.console.log(id);
-//       window.console.log(state);
-//       window.console.log(mode);
-     return true;
 
-//          if (state && mode == "updated") {
-//            grid.forEachCell(id, function (obj) {
-//                if (obj.wasChanged()) 
-//                    obj.cell.style.fontWeight = "bold";
-//            });
-//            return 0;
-//        }
-});
 
 editForm.attachEvent("onButtonClick", function(id){ 
   switch (id) {

@@ -180,6 +180,8 @@ function removeRow(){
   toolbarC.addButton('button_redo', 5, 'Вперед',"fa fa-repeat",false);
   
   var dataProc = new dataProcessor("app_server/dataGrid.php");
+  dataProc.enableDebug(true);
+  dataProc.setTransactionMode("POST", true);
   dataProc.init(documentsGrid);
   
 

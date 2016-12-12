@@ -76,9 +76,8 @@ function loadGridFromHistory(key){
 }   
     
 function gridAttachAdminColumns(){
-  window.console.log(documentsGrid.getColumnsNum());
   var columnsNumber = documentsGrid.getColumnsNum();
-  documentsGrid.insertColumn(0,'Вибір,','myCheck',50,'na','center','top',null);
+  documentsGrid.insertColumn(0,'Вибір','myCheck',50,'na','center','top',null);
   var columnsNumber = documentsGrid.getColumnsNum();
   documentsGrid.insertColumn(columnsNumber,'','myEdit',50,'na','center','top',null);
   var columnsNumber = documentsGrid.getColumnsNum();
