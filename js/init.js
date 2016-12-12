@@ -24,6 +24,11 @@ var searchForm
 
 var bootstrap_count = 100; //кол-во записей при перывоначальной загрузке грида
 
+var grid_history = []; // массив для реализации undo redo
+var index_history; //текущий индекс истории
+var max_history_index = 10; //хранимое количество переходов
+var isFilterMode = 0 //флаг режима undo redo
+
 $(document).ready(function() {
   //объявлена глобально для keyEvents
   edocs.message("Режим: " + ENV);

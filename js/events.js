@@ -41,6 +41,19 @@ toolbarMain.attachEvent("onStateChange", function(id, state){
       break;
   }
 });
+toolbarC.attachEvent("onClick", function(id){
+      switch (id) {
+        case 'button_editor':
+          edocs.message("функционал не реализован");
+          break;
+        case 'button_undo':
+          loadGridFromHistory(-1);
+          break;
+        case 'button_redo':
+          loadGridFromHistory(1);
+          break;
+      }
+    })
 documentsGrid.attachEvent("onRowSelect", function(id,ind){
   var id = documentsGrid.getSelectedId();
   var docName = documentsGrid.cells(documentsGrid.getSelectedId(),documentsGrid.getColIndexById('file')).getValue();
@@ -72,16 +85,10 @@ documentTree.attachEvent("onSelect", function(id, mode){
     doBeforeGridUpdate();
     active_filter.text = documentTree.getItemText(id);
     documentsGrid.load("app_server/dataGrid.php?connector=true&dhx_filter[" + active_filter.mode + "]=" + id, doAfterGridUpdate);
-//    documentsGrid.refresh();
   }
 });  
 
-function doBeforeGridUpdate(){
-    if(USER['type'] == 'admin' && admin_columns_show){
-      gridDetachAdminColumns();
-      admin_columns_show = !admin_columns_show;
-    }
-}
+
 
 dataProc.attachEvent("onBeforeUpdate", function (id, status, data) {
 //     delete data['c9'];
@@ -190,11 +197,3 @@ function searchFormEvent(){
 }); 
 }
 
- if(USER['type'] == 'admin'){
-    toolbarC.attachEvent("onClick", function(id){
-      switch (id) {
-        case 'button_editor':
-          break;
-      }
-    })
- }

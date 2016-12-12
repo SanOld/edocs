@@ -100,16 +100,17 @@ function removeRow(){
 
 
 
-  layout = new dhtmlXLayoutObject(document.body,"4C");                       //initializes dhtmlxLayout
+  layout = new dhtmlXLayoutObject(document.body,"3L");                       //initializes dhtmlxLayout
   layout.setSkin("dhx_web");
   layout.cells("a").setText("Типы документов");                                     //sets the text in the header of the 'grid' column
   layout.cells("a").setWidth(250); 
-  layout.cells("b").setText("Форма поиска");                              //sets the text in the header of the 'form' column
-  layout.cells("b").setHeight(200);
-  layout.cells("b").collapse();
-  layout.cells("c").setText("Список документов"); 
-  layout.cells("c").setHeight(300);
-  layout.cells("d").setText("Документ");
+//  layout.cells("b").setText("Резервное окно");                              //sets the text in the header of the 'form' column
+//  layout.cells("b").setHeight(0);
+//  layout.cells("b").collapse();
+  layout.cells("b").setText("Список документов"); 
+  layout.cells("b").setHeight(300);
+  layout.cells("c").setText("Документ");
+  layout.cells("c").attachHTMLString('<iframe id="viewer" src="" height="100%" width="100%"></iframe>')
 
   menu = layout.attachMenu();                                                //initializes dhtmlxMenu
 //  menu.setIconsPath("icons/");                                               //sets the path to custom icons
@@ -145,7 +146,7 @@ function removeRow(){
 //  toolbarA.setIconset("awesome");
 //  toolbarA.loadStruct("../data/toolbarA.xml", true);
 
-  documentsGrid = layout.cells("c").attachGrid();                             //initializes dhtmlxGrid
+  documentsGrid = layout.cells("b").attachGrid();                             //initializes dhtmlxGrid
   documentsGrid.setImagePath("../imgs/dhxgrid_material/");
   documentsGrid.setHeader("file,Тема,Статус,Видавник, Вид, Назва документу,Дата,N",null,
                           [  "text-align:center;"
@@ -169,19 +170,20 @@ function removeRow(){
 //  documentsGrid.enableMultiselect(true);
   documentsGrid.enableAutoWidth(true);
 	documentsGrid.enableAutoHeight(true);
+//  documentsGrid.setSerializationLevel(true,true,true,true,false,true);
+  documentsGrid.setSerializationLevel(true,true);
   documentsGrid.init();
-
+  
+  toolbarC = layout.cells("b").attachToolbar()
+  toolbarC.setIconset("awesome");
+  toolbarC.addButton('button_undo', 5, 'Назад',"fa fa-undo",false);
+  toolbarC.addButton('button_redo', 5, 'Вперед',"fa fa-repeat",false);
+  
   var dataProc = new dataProcessor("app_server/dataGrid.php");
   dataProc.init(documentsGrid);
   
 
   
-  
-//  toolbarD = layout.cells("d").attachToolbar()
-//  toolbarD.setIconset("awesome");
-//  toolbarD.loadStruct("../data/toolbarD.xml", true);
-
-  layout.cells("d").attachHTMLString('<iframe id="viewer" src="" height="100%" width="100%"></iframe>')
 
 //  var dpg = new dataProcessor("data/contacts.php");                          //inits dataProcessor
 //  dpg.init(documentsGrid);
@@ -204,10 +206,9 @@ function removeRow(){
     toolbarMain.addButton     ('button_upload_folder', 5, 'Завантажити з папки...',"fa fa-cloud-upload",false);   
     toolbarMain.setItemToolTip('button_upload_folder',"Завантаження файлів масово з папки");
     
-    toolbarC = layout.cells("c").attachToolbar()
-    toolbarC.setIconset("awesome");
-    toolbarC.addButton('button_editor', 5, 'Редактор',"fa fa-pencil",false); 
-    toolbarC.setItemToolTip('button_editor',"Редактор документів");
+
+    toolbarC.addButton('button_editor', 5, 'Редактор',"fa fa-pencil",false);
+    toolbarC.setItemToolTip('button_editor',"Редактор документів");    
   }
   
   editFormCreate(); //created edit form
