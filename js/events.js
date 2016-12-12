@@ -55,7 +55,6 @@ documentsGrid.attachEvent("onRowSelect", function(id,ind){
       var path;
 
       edocs.message(docName);
-      edocs.message(path);
       if (docName.search(/\.html/i) != -1){  
         oIframe.src = path + docName;
       } else {

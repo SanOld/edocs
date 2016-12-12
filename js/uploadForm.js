@@ -8,7 +8,7 @@ var width = 500;
 var height = 500;
 var left = ($(window).width() - width)/2;
 var right = ($(window).height() - height)/2;
-var typeFile = ['DOC','DOCX','XLS','XLSX','PDF','HTML'];
+var typeFile = ['DOC','DOCX','XLS','XLSX','PDF','RTF','HTML'];
 
 var formData = [
       {type: "fieldset", label: "Загрузчик", list:[

@@ -5,7 +5,7 @@ function Do(e, kode){
 
     switch (kode){
         case 27://esc
-        if (typeof uploadWindow == 'object' && uploadWindow.unload != null) {
+        if (typeof uploadWindow == 'object' && uploadWindow != null) {
           uploadWindow.unload();
           uploadWindow = null;
         }
@@ -29,7 +29,6 @@ function Do(e, kode){
         case 13://enter
           if (searchWindow instanceof dhtmlXWindows && searchWindow.isWindow('searchWindow')) {
             searchFormSend();
-            searchWindow.window('searchWindow').close();
           }
           break;
         default:

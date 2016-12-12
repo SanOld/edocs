@@ -211,7 +211,7 @@ function removeRow(){
   }
   
   editFormCreate(); //created edit form
-  documentsGrid.load("app_server/dataGrid.php?connector=true&limit=" + 5, doAfterGridUpdate);
+  documentsGrid.load("app_server/dataGrid.php?connector=true&limit=" + bootstrap_count, doAfterGridUpdate);
 //  searchFormCreate();
 
 

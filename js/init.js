@@ -20,7 +20,9 @@ var editForm;
 
 var searchWindow 
 var searchWindowElement;
-var searchForm;
+var searchForm
+
+var bootstrap_count = 100; //кол-во записей при перывоначальной загрузке грида
 
 $(document).ready(function() {
   //объявлена глобально для keyEvents

@@ -6,8 +6,12 @@ include ('db_pdo.php');
 
 $grid_connector = new GridConnector($res, "PDO");
 $grid_connector->enable_log("Log",true);
-$grid_connector->event->attach("beforeProcessing",'handleBeforeProcessing');
 
+$grid_connector->event->attach("beforeProcessing",'handleBeforeProcessing');
+$grid_connector->event->attach("beforeRender","dateRange_filter");
+$grid_connector->event->attach("beforeFilter","custom_filter");
+
+//===список полей грида
 function getTaskColumns() {
 	$columns = array (
                     'file'
@@ -23,7 +27,57 @@ function getTaskColumns() {
 }
 
 
+//===Преобразование фильтра при выборе группового элемента в дереве
+if(isset($_GET['dhx_filter'])){
+   $res = new PDO ( "mysql:dbname=" . DB_DATABASE . ";host=" . DB_HOST, DB_USER, DB_PASSWORD );
+   
+  foreach ( $_GET['dhx_filter'] as $key => $value ) {
+    switch ( $key ) {
+      case 'type_id':
+        $table = 'types';
+        break;
+      case 'topic_id':
+        $table = 'topics';
+        break;
+      case 'author_id':
+        $table = 'authors';
+        break;
+    }
+    
+    if (preg_match ("/group_param/", $_GET['dhx_filter'][$key])) {
+      $name_example = explode('__',$_GET['dhx_filter'][$key]);
+//      unset($_GET['dhx_filter']['type_id']);
+      
+      $sql_example = "
+                    SELECT 
+                      id,
+                      name
+                    FROM " . $table . "
+                    WHERE parent in (SELECT id FROM " . $table . " WHERE name ='".$name_example[0]."' )
+                    ";
+      
+      foreach ($res->query($sql_example) as $row) {
+           $filter_example[] = $row['id'];
+       }    
+      $value = implode(",",$filter_example);
+      $_GET['dhx_filter'][$key] = "(" . $value . ")";
+      
+      $_GET['group'] = array();
+      $_GET['group'][$key]['filter'] = $key;
+      $_GET['group'][$key]['operation'] = 'IN';
+      $_GET['group'][$key]['table'] = $table;
+      
+    }
+
+      
+  }
+}
+//===Преобразование фильтра при выборе группового элемента в дереве
+  
+//===блок для формы поиска
 function custom_filter($filter_by){
+ 
+  if(isset($_GET['search'])){
     if (!sizeof($filter_by->rules)) {
       $filter_by->add("docs.name","%".$_GET['name']."%","LIKE");
       $filter_by->add("topic_id",     $_GET['topic_id'],"LIKE");
@@ -33,12 +87,23 @@ function custom_filter($filter_by){
       $filter_by->add("num",          $_GET['num'],"LIKE");
       $filter_by->add("date",         $_GET['date'],"LIKE");     
     }
-}
-if(isset($_GET['search'])){
-  $grid_connector->event->attach("beforeFilter","custom_filter");
-}
+  }
+  
+  if(isset($_GET['group'])){
+    foreach ( $_GET['group'] as $key => $value ) {
+      if (!sizeof($filter_by->rules)){
+//        $filter_by->claear();
+        $filter_by->add($_GET['group'][$key]['filter'],$value,"LIKE");
+      } 
+        
+      $index = $filter_by->index($_GET['group'][$key]['filter']);
+      if ($index!==false){  //a client-side input for the filter}
+        $filter_by->rules[$index]["operation"]=$_GET['group'][$key]['operation'];
+      }      
+    }
 
-
+  }
+}
 
 
 function dateRange_filter($data){
@@ -50,12 +115,10 @@ function dateRange_filter($data){
   }  
          //not include into output
 }
-$grid_connector->event->attach("beforeRender","dateRange_filter");
+//===блок для формы поиска
 
 
-$filter1 = new OptionsConnector($res);
-$filter1->render_table("types","id","name");
-$grid_connector->set_options("type_id",$filter1);
+
 
 $filter2 = new OptionsConnector($res);
 $filter2->render_table("statuses","id","name");
@@ -66,29 +129,26 @@ $filter3->render_table("authors","id","name");
 $grid_connector->set_options("author_id",$filter3);
 
 $filter4 = new OptionsConnector($res);
-$filter4->render_table("topics","id","name");
+$filter4->render_table("topics","id","name(value)");
 $grid_connector->set_options("topic_id",$filter4);
-
-
-
 
 
 $sql = "
   SELECT 
    docs.id
   ,file
-  ,tcs.name as topic_name
-  ,sts.name as status_name 
-  ,aus.name as author_name
-  ,tps.name as type_name
+  ,topics.name as topic_name
+  ,statuses.name as status_name 
+  ,authors.name as author_name
+  ,types.name as type_name
   ,docs.name
   ,date
   ,num
   FROM docs
-  LEFT JOIN statuses as sts ON docs.status_id = sts.id
-  LEFT JOIN types as tps ON docs.type_id = tps.id
-  LEFT JOIN authors as aus ON docs.author_id = aus.id
-  LEFT JOIN topics as tcs ON docs.topic_id = tcs.id
+  LEFT JOIN statuses ON docs.status_id = statuses.id
+  LEFT JOIN types ON docs.type_id = types.id
+  LEFT JOIN authors  ON docs.author_id = authors.id
+  LEFT JOIN topics  ON docs.topic_id = topics.id
   ";
 
 //используется для первоначального отображения грида
@@ -123,10 +183,6 @@ foreach ( $ids as $value ) {
       break;
   }  
 }
-
-
-
-
 
 
 function handleBeforeProcessing($action){

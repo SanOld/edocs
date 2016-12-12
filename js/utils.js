@@ -15,6 +15,13 @@ function searchFormSend(){
         documentsGrid.clearAll();
         doBeforeGridUpdate();
         documentsGrid.parse(response);
+        var num = documentsGrid.getRowsNum();
+        if(num){
+          dhtmlx.message("Знайдено: " + documentsGrid.getRowsNum() + " документів")
+        } else {
+          dhtmlx.message("За вашим запитом нічого не знайдено!")
+        }
+        
         doAfterGridUpdate();
       });
 }
